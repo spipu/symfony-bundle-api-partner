@@ -38,7 +38,7 @@ class ApiLogPartner implements EntityInterface
     private ?int $id = null;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private ?int $partnerId;
 
@@ -137,7 +137,7 @@ class ApiLogPartner implements EntityInterface
         return $this->partnerId;
     }
 
-    public function setPartnerId(int $partnerId): self
+    public function setPartnerId(?int $partnerId): self
     {
         $this->partnerId = $partnerId;
 
