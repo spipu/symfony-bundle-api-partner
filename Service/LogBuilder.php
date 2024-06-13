@@ -53,7 +53,7 @@ class LogBuilder
     public function addRequest(Request $request): void
     {
         $this->log
-            ->setPartnerId($request->getPartner() ?  $request->getPartner()->getId() : null)
+            ->setPartnerId($request->getPartner() ? $request->getPartner()->getId() : null)
             ->setApiKey($request->getApiKey())
             ->setUserIp($request->getUserIp())
             ->setUserAgent($request->getUserAgent())
