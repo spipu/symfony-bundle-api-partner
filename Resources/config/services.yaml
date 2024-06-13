@@ -1,0 +1,16 @@
+services:
+    Spipu\ApiPartnerBundle\:
+        resource: '../../*'
+        exclude: '../../{DependencyInjection,Entity,Tests,SpipuApiPartnerBundle.php}'
+        autowire: true
+        autoconfigure: true
+
+    Spipu\ApiPartnerBundle\Service\RouteService:
+        autowire: true
+        arguments:
+            $routes: !tagged_iterator 'spipu.api-partner.route'
+
+    Spipu\ApiPartnerBundle\Service\ApiService:
+        autowire: true
+        arguments:
+            $container: '@service_container'

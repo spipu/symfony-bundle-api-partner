@@ -1,0 +1,53 @@
+{% set response = currentRoute.responseFormat %}
+{% if currentRoute.httpMethod == 'DELETE' %}
+    {% set cssBadge='danger' %}
+{% elseif currentRoute.httpMethod == 'POST' %}
+    {% set cssBadge='primary' %}
+{% elseif currentRoute.httpMethod == 'PUT' %}
+    {% set cssBadge='warning' %}
+{% else %}
+    {% set cssBadge='success' %}
+{% endif %}
+<div class="row">
+    <div class="col-12">
+        <div class="card mb-3">
+            <div class="card-header">
+                {% if currentRoute.isDeprecated %}<span class="badge badge-danger">DEPRECATED</span>{% endif %}
+                Route <b>{{ currentRoute.code }}</b>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-secondary">
+                    <span class="badge badge-{{ cssBadge }} p-2 mr-2">{{ currentRoute.httpMethod }}</span>
+                    <code>{{ currentRoute.routePattern }}</code>
+                </div>
+                {% if currentRoute.description %}<hr />{{ currentRoute.description|raw }}{% endif %}
+            </div>
+        </div>
+        <div class="card mb-3">
+            <div class="card-header"><b>Path</b> Parameters</div>
+            {% include '@SpipuApiPartner/swagger/parameters.html.twig' with {parameters: currentRoute.pathParameters} %}
+        </div>
+        <div class="card mb-3">
+            <div class="card-header"><b>Query</b> Parameters</div>
+            {% include '@SpipuApiPartner/swagger/parameters.html.twig' with {parameters: currentRoute.queryParameters} %}
+        </div>
+        <div class="card mb-3">
+            <div class="card-header"><b>Body</b> Parameters</div>
+            {% include '@SpipuApiPartner/swagger/parameters.html.twig' with {parameters: currentRoute.bodyParameters} %}
+        </div>
+        <div class="card">
+            <div class="card-header"><b>Response</b> definition</div>
+                {% if response %}
+                <table class="table">
+                    <tr><th class="w-25">Content Type</th><td>{{ response.contentType }}</td></tr>
+                    <tr><th class="w-25">Binary</th><td>{{ response.binaryContent ? 'Yes' : 'No' }}</td></tr>
+                </table>
+                {% if response.type == 'json' %}
+                    {% include '@SpipuApiPartner/swagger/parameters.html.twig' with {parameters: response.jsonContent} %}
+                {% endif %}
+            {% else %}
+                <div class="alert alert-info mb-0">{{ 'spipu.api_partner.label.no_response_definition'|trans }}</div>
+            {% endif %}
+        </div>
+    </div>
+</div>

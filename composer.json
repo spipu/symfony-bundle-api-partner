@@ -1,0 +1,23 @@
+{
+    "name": "spipu/api-partner-bundle",
+    "type": "symfony-bundle",
+    "description": "Spipu Api Partner Bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Laurent Minguet",
+            "email": "contact@minguet.fr"
+        }
+    ],
+    "require": {
+        "php": "^7.4",
+        "symfony/framework-bundle": "^5.4",
+        "spipu/core-bundle":   "^2.0",
+        "spipu/ui-bundle":     "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Spipu\\ApiPartnerBundle\\": "./"
+        }
+    }
+}

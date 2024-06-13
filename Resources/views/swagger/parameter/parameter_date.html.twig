@@ -1,0 +1,14 @@
+<span class="badge badge-secondary">{{ parameter.name }}</span>
+
+{% if parameter.isRequired %}
+    <span class="badge badge-warning">required</span>
+{% endif %}
+
+<br />
+<small>Format: <span class="badge badge-light">2000-01-01</span></small>
+<br />
+
+{% if parameter.description %}
+    <span class="small font-italic">{{ parameter.description|raw }}</span>
+    <br />
+{% endif %}

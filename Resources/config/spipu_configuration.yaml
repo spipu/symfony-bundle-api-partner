@@ -1,0 +1,10 @@
+spipu_configuration:
+    api.partner.log_debug:
+        type:     "boolean"
+        required: true
+        default:  true
+
+    api.partner.validate_response_format:
+        type:     "boolean"
+        required: true
+        default:  false

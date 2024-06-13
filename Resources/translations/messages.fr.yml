@@ -1,0 +1,40 @@
+spipu:
+    api_partner:
+        log:
+            field:
+                id:           "Id"
+                date:         "Date"
+                memory_usage: "Memory Usage"
+                duration:     "Duration"
+                user_ip:      "User Ip"
+                user_agent:   "User Agent"
+                api_key:      "Api Key"
+                request_time: "Request Time"
+                request_hash: "Request Hash"
+                method:       "Method"
+                route:        "Route"
+                query_string: "Query String"
+                body_string:  "Body String"
+                route_code:   "Route Code"
+                partner:      "Partner"
+                response_status:   "Response Status"
+                response_code:     "Response Code"
+                response_type:     "Response Type"
+                response_content:  "Response Content"
+            fieldset:
+                information: "Information"
+                performance: "Performance"
+                user:        "User"
+                security:    "Security"
+                request:     "Request"
+                response:    "Response"
+                others:      "Autres"
+            status:
+                success: "Success"
+                error:   "Error"
+        label:
+            api_partner: "API Partner"
+            api_swagger: "API Partner - Swagger"
+            api_logs:    "API Partner - Logs"
+            select_item: "Please select an item on the menu"
+            no_response_definition: "The response definition is not defined"

@@ -1,0 +1,12 @@
+<div class="card mb-3">
+    <div class="card-header">Documents</div>
+    <div class="card-body">
+        {% for document in documents %}
+            {% if currentDoc and currentDoc.code == document.code %}
+                <b>{{ document.title }}</b><br />
+            {% else %}
+                <a href="{{ path(show_route_path, show_route_params + {'code': document.code}) }}">{{ document.title }}</a><br />
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>

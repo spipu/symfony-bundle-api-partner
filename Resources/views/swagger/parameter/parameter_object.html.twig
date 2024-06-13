@@ -1,0 +1,14 @@
+<span class="badge badge-secondary">{{ parameter.name }}</span>
+
+{% if parameter.isRequired %}
+    <span class="badge badge-warning">required</span>
+{% endif %}
+<br />
+{% if parameter.description %}
+    <span class="small font-italic ml-4">{{ parameter.description|raw }}</span>
+    <br />
+{% endif %}
+
+<div class="ml-4">
+    {% include '@SpipuApiPartner/swagger/parameters.html.twig' with {parameters: parameter.properties} %}
+</div>

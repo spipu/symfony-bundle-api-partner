@@ -1,0 +1,92 @@
+{% import '@SpipuUi/macro/size.html.twig' as size %}
+
+<div class="row text-break">
+    <div class="col-12 mb-3">
+        <div class="card">
+            <div class="card-header font-weight-bold">{{ 'spipu.api_partner.log.fieldset.information'|trans }}</div>
+            <table class="table mb-0 table-hover table-sm">
+                <tbody>
+                <tr><th class="w-25">{{ 'spipu.api_partner.log.field.id'|trans }}</th><td>{{ log.id }}</td></tr>
+                <tr><th class="w-25">{{ 'spipu.api_partner.log.field.date'|trans }}</th><td>{{ log.date|date('Y-m-d H:i:s', "Europe/Paris") }}</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row text-break">
+    <div class="col-12 mb-3">
+        <div class="card">
+            <div class="card-header font-weight-bold">{{ 'spipu.api_partner.log.fieldset.performance'|trans }}</div>
+            <table class="table mb-0 table-hover table-sm">
+                <tbody>
+                <tr><th class="w-25">{{ 'spipu.api_partner.log.field.memory_usage'|trans }}</th><td>{{ size.bytesToSize(log.memoryUsage) }}</td></tr>
+                <tr><th class="w-25">{{ 'spipu.api_partner.log.field.duration'|trans }}</th><td>{{ log.duration|number_format(3, '.', ' ') }} s</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row text-break">
+    <div class="col-12 mb-3">
+        <div class="card">
+            <div class="card-header font-weight-bold">{{ 'spipu.api_partner.log.fieldset.user'|trans }}</div>
+            <table class="table mb-0 table-hover table-sm">
+                <tbody>
+                <tr><th class="w-25">{{ 'spipu.api_partner.log.field.user_ip'|trans }}</th><td>{{ log.userIp }}</td></tr>
+                <tr><th class="w-25">{{ 'spipu.api_partner.log.field.user_agent'|trans }}</th><td>{{ log.userAgent }}</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row text-break">
+    <div class="col-12 mb-3">
+        <div class="card">
+            <div class="card-header font-weight-bold">{{ 'spipu.api_partner.log.fieldset.security'|trans }}</div>
+            <table class="table mb-0 table-hover table-sm">
+                <tbody>
+                <tr><th class="w-25">{{ 'spipu.api_partner.log.field.api_key'|trans }}</th><td>{{ log.apiKey }}</td></tr>
+                <tr><th class="w-25">{{ 'spipu.api_partner.log.field.request_time'|trans }}</th><td>{{ log.requestTime|date('Y-m-d H:i:s', "Europe/Paris") }}</td></tr>
+                <tr><th class="w-25">{{ 'spipu.api_partner.log.field.request_hash'|trans }}</th><td>{{ log.requestHash }}</td></tr>
+                <tr><th class="w-25">{{ 'spipu.api_partner.log.field.partner'|trans }}</th><td>{% if partner %}{{ partner.apiName }}{% endif %}</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row text-break">
+    <div class="col-12 mb-3">
+        <div class="card">
+            <div class="card-header font-weight-bold">{{ 'spipu.api_partner.log.fieldset.request'|trans }}</div>
+            <table class="table mb-0 table-hover table-sm">
+                <tbody>
+                <tr><th class="w-25">{{ 'spipu.api_partner.log.field.route_code'|trans }}</th><td>{{ log.routeCode }}</td></tr>
+                <tr><th class="w-25">{{ 'spipu.api_partner.log.field.method'|trans }}</th><td>{{ log.method }}</td></tr>
+                <tr><th class="w-25">{{ 'spipu.api_partner.log.field.route'|trans }}</th><td>{{ log.route }}</td></tr>
+                <tr><th class="w-25">{{ 'spipu.api_partner.log.field.query_string'|trans }}</th><td>{{ log.queryString }}</td></tr>
+                <tr><th class="w-25">{{ 'spipu.api_partner.log.field.body_string'|trans }}</th><td>{{ log.bodyString }}</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row text-break">
+    <div class="col-12 mb-3">
+        <div class="card">
+            <div class="card-header font-weight-bold">{{ 'spipu.api_partner.log.fieldset.response'|trans }}</div>
+            <table class="table mb-0 table-hover table-sm">
+                <tbody>
+                <tr><th class="w-25">{{ 'spipu.api_partner.log.field.response_code'|trans }}</th><td>{{ log.responseCode }}</td></tr>
+                <tr><th class="w-25">{{ 'spipu.api_partner.log.field.response_status'|trans }}</th><td>{{ log.responseStatus }}</td></tr>
+                <tr><th class="w-25">{{ 'spipu.api_partner.log.field.response_type'|trans }}</th><td>{{ log.responseType }}</td></tr>
+                <tr>
+                    <th class="w-25">{{ 'spipu.api_partner.log.field.response_content'|trans }}</th>
+                    <td>
+                        <pre class="overflow-auto">{{ log.displayResponseContent }}</pre>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

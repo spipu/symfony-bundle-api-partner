@@ -1,0 +1,38 @@
+<span class="badge badge-secondary">{{ parameter.name }}</span>
+
+{% if parameter.isRequired %}
+    <span class="badge badge-warning">required</span>
+{% endif %}
+
+{% if parameter.minLength is not null %}
+    <span class="badge badge-light">
+        &gt;{% if not parameter.exclusiveMin %}={% endif %} {{ parameter.minLength }} character{% if parameter.minLength>1 %}s{% endif %}
+    </span>
+{% endif %}
+
+{% if parameter.maxLength is not null %}
+    <span class="badge badge-light">
+        &lt;{% if not parameter.exclusiveMax %}={% endif %} {{ parameter.maxLength }} character{% if parameter.maxLength>1 %}s{% endif %}
+    </span>
+{% endif %}
+<br />
+{% if parameter.pattern is not null %}
+    <small>Pattern:</small>
+    <span class="badge badge-light">
+        {{ parameter.pattern }}
+    </span>
+    <br />
+{% endif %}
+
+{% if parameter.enum is not null %}
+    <small>Enum:</small>
+    {% for value in parameter.enum %}
+        <span class="badge badge-light">{{ value }}</span>
+    {% endfor %}
+    <br />
+{% endif %}
+
+{% if parameter.description %}
+    <span class="small font-italic">{{ parameter.description|raw }}</span>
+    <br />
+{% endif %}

@@ -1,0 +1,21 @@
+<div class="card mb-3">
+    <div class="card-header">APIS - Version {{ version }}</div>
+    <div class="card-body">
+        {% for group, routeCodes in groupedRouteCodes %}
+            <div class="card mb-3">
+                <div class="card-header">
+                    API {{ group }}
+                </div>
+                <div class="card-body">
+                    {% for routeCode in routeCodes %}
+                        {% if currentRoute and currentRoute.code == routeCode %}
+                            <b>{{ routeCode }}</b><br />
+                        {% else %}
+                            <a href="{{ path(show_route_path, show_route_params + {'code': routeCode}) }}">{{ routeCode }}</a><br />
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

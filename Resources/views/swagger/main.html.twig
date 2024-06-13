@@ -1,0 +1,21 @@
+<div class="row">
+    <div class="col-12 col-md-3">
+        {% include '@SpipuApiPartner/swagger/list-documents.html.twig' with { 'show_route_params': {'type': 'doc'}   } %}
+        {% include '@SpipuApiPartner/swagger/list-routes.html.twig'    with { 'show_route_params': {'type': 'route'} } %}
+    </div>
+    <div class="col-12 col-md-9">
+        <div class="card">
+            <div class="card-body">
+                {% if currentRoute %}
+                    {% include '@SpipuApiPartner/swagger/show-route.html.twig' %}
+                {% elseif currentDoc %}
+                    {% include '@SpipuApiPartner/swagger/show-document.html.twig' %}
+                {% else %}
+                    <div class="alert alert-info mb-0">
+                        {{ 'spipu.api_partner.label.select_item'|trans }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

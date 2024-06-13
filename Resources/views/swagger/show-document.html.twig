@@ -1,0 +1,34 @@
+<style>
+    .api-doc h2 {
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+    .api-doc h3 {
+        margin-top: 30px;
+        font-weight: bold;
+    }
+    .api-doc h4 {
+        margin-top: 30px;
+    }
+    .api-doc pre {
+        border: none;
+        border-radius: 5px;
+        background-color: #111722;
+        color: white;
+        display: block;
+        padding: 10px 12px;
+        width: 100%;
+    }
+    .api-doc code {
+        border: solid 1px lightgray;
+        border-radius: 2px;
+        background-color: #FAFBFC;
+        color: #1b1e21;
+        display: inline;
+        padding: 2px 4px;
+    }
+</style>
+<div class="api-doc">
+    <h2>{{ currentDoc.title }}</h2>
+    {% include currentDoc.template %}
+</div>
