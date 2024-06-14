@@ -20,9 +20,9 @@ interface PartnerRepositoryInterface
     /**
      * @return PartnerInterface[]
      */
-    public function findAll(): array;
+    public function getAllPartners(): array;
 
-    public function findByApiKey(string $apiKey): ?PartnerInterface;
+    public function getPartnerByApiKey(string $apiKey): ?PartnerInterface;
 
-    public function findById(int $id): ?PartnerInterface;
+    public function getPartnerById(int $id): ?PartnerInterface;
 }

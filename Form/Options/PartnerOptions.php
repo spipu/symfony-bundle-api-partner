@@ -30,7 +30,7 @@ class PartnerOptions extends AbstractOptions
     protected function buildOptions(): array
     {
         /** @var PartnerInterface[] $partners */
-        $partners = $this->partnerRepository->findAll();
+        $partners = $this->partnerRepository->getAllPartners();
 
         $list = [];
         foreach ($partners as $partner) {
