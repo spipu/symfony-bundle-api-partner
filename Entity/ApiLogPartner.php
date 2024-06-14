@@ -23,7 +23,8 @@ use Spipu\UiBundle\Entity\EntityInterface;
  *     name="api_log_partner",
  *     indexes={
  *         @ORM\Index(name="API_LOG_PARTNER_METHOD_INDEX", columns={"method"}),
- *         @ORM\Index(name="API_LOG_PARTNER_ROUTE_INDEX", columns={"route"})
+ *         @ORM\Index(name="API_LOG_PARTNER_ROUTE_INDEX", columns={"route"}),
+ *         @ORM\Index(name="API_LOG_PARTNER_RESPONSE_STATUS_INDEX", columns={"response_status"})
  *     }
  * )
  * @SuppressWarnings(PMD.TooManyFields)
