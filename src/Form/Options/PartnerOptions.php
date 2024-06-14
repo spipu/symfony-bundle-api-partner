@@ -41,4 +41,9 @@ class PartnerOptions extends AbstractOptions
 
         return $list;
     }
+
+    public function getTranslatableType(): string
+    {
+        return self::TRANSLATABLE_NO;
+    }
 }

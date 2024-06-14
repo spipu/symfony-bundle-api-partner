@@ -13,119 +13,79 @@ declare(strict_types=1);
 
 namespace Spipu\ApiPartnerBundle\Entity;
 
-use DateTimeInterface;
+use DateTimeImmutable;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Spipu\UiBundle\Entity\EntityInterface;
 
 /**
- * @ORM\Entity(repositoryClass="Spipu\ApiPartnerBundle\Repository\ApiLogPartnerRepository")
- * @ORM\Table(
- *     name="api_log_partner",
- *     indexes={
- *         @ORM\Index(name="API_LOG_PARTNER_METHOD_INDEX", columns={"method"}),
- *         @ORM\Index(name="API_LOG_PARTNER_ROUTE_INDEX", columns={"route"}),
- *         @ORM\Index(name="API_LOG_PARTNER_RESPONSE_STATUS_INDEX", columns={"response_status"})
- *     }
- * )
  * @SuppressWarnings(PMD.TooManyFields)
  */
+#[ORM\Entity(repositoryClass: 'Spipu\ApiPartnerBundle\Repository\ApiLogPartnerRepository')]
+#[ORM\Table(name: 'api_log_partner')]
+#[ORM\Index(name: 'API_LOG_PARTNER_METHOD_INDEX', columns: ['method'])]
+#[ORM\Index(name: 'API_LOG_PARTNER_ROUTE_INDEX', columns: ['route'])]
+#[ORM\Index(name: 'API_LOG_PARTNER_RESPONSE_STATUS_INDEX', columns: ['response_status'])]
 class ApiLogPartner implements EntityInterface
 {
-     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="bigint")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+
+    #[ORM\Column(nullable: true)]
     private ?int $partnerId;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private ?DateTimeInterface $date = null;
+    #[ORM\Column]
+    private ?DateTimeImmutable $date = null;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column]
     private ?int $memoryUsage = null;
 
-    /**
-     * @ORM\Column(type="float")
-     */
+    #[ORM\Column]
     private ?float $duration = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(length: 255)]
     private ?string $userIp = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(length: 255)]
     private ?string $userAgent = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private ?string $apiKey;
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $apiKey;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(nullable: true)]
     private ?int $requestTime = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $requestHash = null;
 
-    /**
-     * @ORM\Column(type="string", length=32)
-     */
+    #[ORM\Column(length: 32)]
     private ?string $method = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(length: 255)]
     private ?string $route = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $queryString = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $bodyString = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $routeCode = null;
 
-    /**
-     * @ORM\Column(type="string", length=16)
-     */
+    #[ORM\Column(length: 16)]
     private string $responseStatus = '';
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column]
     private ?int $responseCode = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(length: 255)]
     private ?string $responseType = null;
 
-    /**
-     * @ORM\Column(type="text")
-     */
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $responseContent = null;
 
     public function getId(): ?int
@@ -138,19 +98,19 @@ class ApiLogPartner implements EntityInterface
         return $this->partnerId;
     }
 
-    public function setPartnerId(?int $partnerId): self
+    public function setPartnerId(?int $partnerId): static
     {
         $this->partnerId = $partnerId;
 
         return $this;
     }
 
-    public function getDate(): ?DateTimeInterface
+    public function getDate(): ?DateTimeImmutable
     {
         return $this->date;
     }
 
-    public function setDate(DateTimeInterface $date): self
+    public function setDate(DateTimeImmutable $date): static
     {
         $this->date = $date;
 
@@ -162,7 +122,7 @@ class ApiLogPartner implements EntityInterface
         return $this->memoryUsage;
     }
 
-    public function setMemoryUsage(int $memoryUsage): self
+    public function setMemoryUsage(int $memoryUsage): static
     {
         $this->memoryUsage = $memoryUsage;
 
@@ -174,7 +134,7 @@ class ApiLogPartner implements EntityInterface
         return $this->duration;
     }
 
-    public function setDuration(float $duration): self
+    public function setDuration(float $duration): static
     {
         $this->duration = $duration;
 
@@ -186,8 +146,7 @@ class ApiLogPartner implements EntityInterface
         return $this->userAgent;
     }
 
-
-    public function setUserAgent(string $userAgent): self
+    public function setUserAgent(string $userAgent): static
     {
         $this->userAgent = $this->limitStringData($userAgent);
 
@@ -199,19 +158,19 @@ class ApiLogPartner implements EntityInterface
         return $this->userIp;
     }
 
-    public function setUserIp(string $userIp): self
+    public function setUserIp(string $userIp): static
     {
         $this->userIp = $this->limitStringData($userIp);
 
         return $this;
     }
 
-    public function getApiKey(): ?string
+    public function getApiKey(): string
     {
         return $this->apiKey;
     }
 
-    public function setApiKey(string $apiKey): self
+    public function setApiKey(string $apiKey): static
     {
         $this->apiKey = $this->limitStringData($apiKey);
 
@@ -223,7 +182,7 @@ class ApiLogPartner implements EntityInterface
         return $this->requestTime;
     }
 
-    public function setRequestTime(?int $requestTime): self
+    public function setRequestTime(?int $requestTime): static
     {
         $this->requestTime = $requestTime;
 
@@ -235,7 +194,7 @@ class ApiLogPartner implements EntityInterface
         return $this->requestHash;
     }
 
-    public function setRequestHash(?string $requestHash): self
+    public function setRequestHash(?string $requestHash): static
     {
         $this->requestHash = $this->limitStringData($requestHash);
 
@@ -247,7 +206,7 @@ class ApiLogPartner implements EntityInterface
         return $this->method;
     }
 
-    public function setMethod(string $method): self
+    public function setMethod(string $method): static
     {
         $this->method = $this->limitStringData($method);
 
@@ -259,7 +218,7 @@ class ApiLogPartner implements EntityInterface
         return $this->route;
     }
 
-    public function setRoute(string $route): self
+    public function setRoute(string $route): static
     {
         $this->route = $this->limitStringData($route);
 
@@ -271,7 +230,7 @@ class ApiLogPartner implements EntityInterface
         return $this->queryString;
     }
 
-    public function setQueryString(?string $queryString): self
+    public function setQueryString(?string $queryString): static
     {
         $this->queryString = $this->limitStringData($queryString, 1024 * 1024);
 
@@ -283,7 +242,7 @@ class ApiLogPartner implements EntityInterface
         return $this->bodyString;
     }
 
-    public function setBodyString(?string $bodyString): self
+    public function setBodyString(?string $bodyString): static
     {
         $this->bodyString = $this->limitStringData($bodyString, 1024 * 1024);
 
@@ -295,7 +254,7 @@ class ApiLogPartner implements EntityInterface
         return $this->routeCode;
     }
 
-    public function setRouteCode(?string $routeCode): self
+    public function setRouteCode(?string $routeCode): static
     {
         $this->routeCode = $this->limitStringData($routeCode);
 
@@ -307,7 +266,7 @@ class ApiLogPartner implements EntityInterface
         return $this->responseStatus;
     }
 
-    public function setResponseStatus(string $responseStatus): self
+    public function setResponseStatus(string $responseStatus): static
     {
         $this->responseStatus = $responseStatus;
 
@@ -319,7 +278,7 @@ class ApiLogPartner implements EntityInterface
         return $this->responseCode;
     }
 
-    public function setResponseCode(int $responseCode): self
+    public function setResponseCode(int $responseCode): static
     {
         $this->responseCode = $responseCode;
 
@@ -331,7 +290,7 @@ class ApiLogPartner implements EntityInterface
         return $this->responseType;
     }
 
-    public function setResponseType(string $responseType): self
+    public function setResponseType(string $responseType): static
     {
         $this->responseType = $this->limitStringData($responseType);
 
@@ -343,7 +302,7 @@ class ApiLogPartner implements EntityInterface
         return $this->responseContent;
     }
 
-    public function setResponseContent(string $responseContent): self
+    public function setResponseContent(string $responseContent): static
     {
         $this->responseContent = $this->limitStringData($responseContent, 1024 * 1024);
 
