@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Unit\Spareka\ApiPartnerBundle\Model\Parameter;
+namespace Spipu\ApiPartnerBundle\Tests\Unit\Model\Parameter;
 
 use PHPUnit\Framework\TestCase;
 use Spipu\ApiPartnerBundle\Exception\RouteException;

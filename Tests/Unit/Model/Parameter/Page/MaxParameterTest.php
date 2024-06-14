@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\Unit\Spareka\ApiPartnerBundle\Model\Parameter\Page;
+namespace Spipu\ApiPartnerBundle\Tests\Unit\Model\Parameter\Page;
 
-use App\Tests\Unit\Spareka\ApiPartnerBundle\Model\Parameter\AbstractParameterTest;
+use Spipu\ApiPartnerBundle\Tests\Unit\Model\Parameter\AbstractParameterTest;
 use Spipu\ApiPartnerBundle\Model\Parameter\IntegerParameter;
 use Spipu\ApiPartnerBundle\Model\Parameter\Page\MaxParameter;
 use Spipu\ApiPartnerBundle\Model\ParameterInterface;
