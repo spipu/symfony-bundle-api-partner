@@ -42,10 +42,7 @@ abstract class AbstractParameter implements ParameterInterface
         return $this->required;
     }
 
-    /**
-     * @return mixed
-     */
-    public function validateValue(string $key, $value)
+    public function validateValue(string $key, mixed $value): mixed
     {
         if ($value === null) {
             if ($this->required) {
@@ -63,13 +60,7 @@ abstract class AbstractParameter implements ParameterInterface
         return new RouteException($key . ' - ' . $message);
     }
 
-    /**
-     * @return mixed
-     */
-    abstract protected function getDefaultValue();
+    abstract protected function getDefaultValue(): mixed;
 
-    /**
-     * @return mixed
-     */
-    abstract protected function validateValueType(string $key, $value);
+    abstract protected function validateValueType(string $key, mixed $value): mixed;
 }

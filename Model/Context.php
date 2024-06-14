@@ -50,10 +50,7 @@ class Context
         $this->bodyParameters = $bodyParameters;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPathParameter(string $key)
+    public function getPathParameter(string $key): mixed
     {
         if (!array_key_exists($key, $this->pathParameters)) {
             throw new RouteException('This path parameter does not exist for this route');
@@ -62,10 +59,7 @@ class Context
         return $this->pathParameters[$key];
     }
 
-    /**
-     * @return mixed
-     */
-    public function getQueryParameter(string $key)
+    public function getQueryParameter(string $key): mixed
     {
         if (!array_key_exists($key, $this->queryParameters)) {
             throw new RouteException('This query parameter does not exist for this route');
@@ -74,10 +68,7 @@ class Context
         return $this->queryParameters[$key];
     }
 
-    /**
-     * @return mixed
-     */
-    public function getBodyParameter(string $key)
+    public function getBodyParameter(string $key): mixed
     {
         if (!array_key_exists($key, $this->bodyParameters)) {
             throw new RouteException('This body parameter does not exist for this route');

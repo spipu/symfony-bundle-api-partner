@@ -103,7 +103,7 @@ class ArrayParameter extends AbstractParameter
         return $this->defaultValue;
     }
 
-    protected function validateValueType(string $key, $value): array
+    protected function validateValueType(string $key, mixed $value): array
     {
         if (!is_array($value)) {
             throw $this->createException($key, 'parameter must be an array');

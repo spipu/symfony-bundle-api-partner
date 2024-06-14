@@ -40,7 +40,7 @@ class BooleanParameter extends AbstractParameter
         return $this->defaultValue;
     }
 
-    protected function validateValueType(string $key, $value): bool
+    protected function validateValueType(string $key, mixed $value): bool
     {
         if ($value === 'false' || $value === '0' || $value === 0) {
             $value = false;

@@ -90,7 +90,7 @@ class NumberParameter extends AbstractParameter
         return $this->defaultValue;
     }
 
-    protected function validateValueType(string $key, $value): float
+    protected function validateValueType(string $key, mixed $value): float
     {
         if (!is_float($value) && !is_int($value) && !is_string($value)) {
             throw $this->createException($key, 'parameter must be a number');

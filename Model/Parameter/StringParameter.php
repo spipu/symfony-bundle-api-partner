@@ -117,7 +117,7 @@ class StringParameter extends AbstractParameter
         return $this->defaultValue;
     }
 
-    protected function validateValueType(string $key, $value): string
+    protected function validateValueType(string $key, mixed $value): string
     {
         if (!is_string($value)) {
             throw $this->createException($key, 'parameter must be a string');

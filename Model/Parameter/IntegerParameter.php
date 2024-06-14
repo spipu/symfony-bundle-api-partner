@@ -90,7 +90,7 @@ class IntegerParameter extends AbstractParameter
         return $this->defaultValue;
     }
 
-    protected function validateValueType(string $key, $value): int
+    protected function validateValueType(string $key, mixed $value): int
     {
         if (!is_int($value) && (!is_string($value) || !ctype_digit((string) $value))) {
             throw $this->createException($key, 'parameter must be an integer');

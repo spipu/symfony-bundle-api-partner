@@ -51,7 +51,7 @@ class DateParameter extends AbstractParameter
      * @throws RouteException
      * @SuppressWarnings(PMD.StaticAccess)
      */
-    protected function validateValueType(string $key, $value): DateTimeInterface
+    protected function validateValueType(string $key, mixed $value): DateTimeInterface
     {
         if (!is_string($value)) {
             throw $this->createException($key, 'parameter must be a valid datetime');

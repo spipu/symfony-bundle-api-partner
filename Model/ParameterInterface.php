@@ -27,5 +27,5 @@ interface ParameterInterface
 
     public function isRequired(): bool;
 
-    public function validateValue(string $key, $value);
+    public function validateValue(string $key, mixed $value): mixed;
 }
