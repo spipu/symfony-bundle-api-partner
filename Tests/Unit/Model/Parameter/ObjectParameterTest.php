@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Unit\Spareka\ApiPartnerBundle\Model\Parameter;
+namespace Spipu\ApiPartnerBundle\Tests\Unit\Model\Parameter;
 
 use Spipu\ApiPartnerBundle\Model\Parameter\IntegerParameter;
 use Spipu\ApiPartnerBundle\Model\Parameter\ObjectParameter;

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\Unit\Spareka\ApiPartnerBundle\Model\Parameter\Generic;
+namespace Spipu\ApiPartnerBundle\Tests\Unit\Model\Parameter\Generic;
 
-use App\Tests\Unit\Spareka\ApiPartnerBundle\Model\Parameter\AbstractParameterTest;
+use Spipu\ApiPartnerBundle\Tests\Unit\Model\Parameter\AbstractParameterTest;
 use Spipu\ApiPartnerBundle\Exception\RouteException;
 use Spipu\ApiPartnerBundle\Model\Parameter\Generic\FileParameter;
 use Spipu\ApiPartnerBundle\Model\Parameter\ObjectParameter;
