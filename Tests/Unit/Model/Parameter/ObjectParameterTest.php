@@ -71,4 +71,17 @@ class ObjectParameterTest extends AbstractParameterTest
             ]
         );
     }
+    public function testOther()
+    {
+        $parameter = new ObjectParameter();
+
+        $this->assertSame([], $parameter->getProperties());
+
+        $fooParameter = new StringParameter();
+        $barParameter = new IntegerParameter();
+
+        $parameter->addProperty('foo', $fooParameter);
+        $parameter->addProperty('bar', $barParameter);
+        $this->assertSame(['foo' => $fooParameter, 'bar' => $barParameter], $parameter->getProperties());
+    }
 }

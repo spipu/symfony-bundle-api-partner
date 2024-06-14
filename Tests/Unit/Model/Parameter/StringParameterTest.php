@@ -164,4 +164,58 @@ class StringParameterTest extends AbstractParameterTest
             ]
         );
     }
+
+    public function testOther()
+    {
+        $parameter = new StringParameter();
+        $this->assertNull($parameter->getDescription());
+
+        $parameter->setDescription('fake description');
+        $this->assertSame('fake description', $parameter->getDescription());
+
+        $this->assertFalse($parameter->isRequired());
+
+        $parameter->setRequired(true);
+        $this->assertTrue($parameter->isRequired());
+
+        $parameter->setRequired(false);
+        $this->assertFalse($parameter->isRequired());
+
+        $this->assertSame(
+            [null, null, null, null],
+            [$parameter->getMinLength(), $parameter->getExclusiveMin(), $parameter->getMaxLength(), $parameter->getExclusiveMax()]
+        );
+
+        $parameter->setMinLength(1, false);
+        $this->assertSame(
+            [1, false, null, null],
+            [$parameter->getMinLength(), $parameter->getExclusiveMin(), $parameter->getMaxLength(), $parameter->getExclusiveMax()]
+        );
+
+        $parameter->setMinLength(2, true);
+        $this->assertSame(
+            [2, true, null, null],
+            [$parameter->getMinLength(), $parameter->getExclusiveMin(), $parameter->getMaxLength(), $parameter->getExclusiveMax()]
+        );
+
+        $parameter->setMaxLength(3, false);
+        $this->assertSame(
+            [2, true, 3, false],
+            [$parameter->getMinLength(), $parameter->getExclusiveMin(), $parameter->getMaxLength(), $parameter->getExclusiveMax()]
+        );
+
+        $parameter->setMaxLength(4, true);
+        $this->assertSame(
+            [2, true, 4, true],
+            [$parameter->getMinLength(), $parameter->getExclusiveMin(), $parameter->getMaxLength(), $parameter->getExclusiveMax()]
+        );
+
+        $this->assertNull($parameter->getPattern());
+        $parameter->setPattern('test');
+        $this->assertSame('test', $parameter->getPattern());
+
+        $this->assertNull($parameter->getEnum());
+        $parameter->setEnum(['foo', 'Bar']);
+        $this->assertSame(['foo', 'Bar'], $parameter->getEnum());
+    }
 }

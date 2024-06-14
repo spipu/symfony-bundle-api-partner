@@ -131,4 +131,38 @@ class NumberParameterTest extends AbstractParameterTest
             ]
         );
     }
+
+    public function testOther()
+    {
+        $parameter = new NumberParameter();
+
+        $this->assertSame(
+            [null, null, null, null],
+            [$parameter->getMinValue(), $parameter->getExclusiveMin(), $parameter->getMaxValue(), $parameter->getExclusiveMax()]
+        );
+
+        $parameter->setMinValue(1.1, false);
+        $this->assertSame(
+            [1.1, false, null, null],
+            [$parameter->getMinValue(), $parameter->getExclusiveMin(), $parameter->getMaxValue(), $parameter->getExclusiveMax()]
+        );
+
+        $parameter->setMinValue(2.2, true);
+        $this->assertSame(
+            [2.2, true, null, null],
+            [$parameter->getMinValue(), $parameter->getExclusiveMin(), $parameter->getMaxValue(), $parameter->getExclusiveMax()]
+        );
+
+        $parameter->setMaxValue(3.3, false);
+        $this->assertSame(
+            [2.2, true, 3.3, false],
+            [$parameter->getMinValue(), $parameter->getExclusiveMin(), $parameter->getMaxValue(), $parameter->getExclusiveMax()]
+        );
+
+        $parameter->setMaxValue(4.4, true);
+        $this->assertSame(
+            [2.2, true, 4.4, true],
+            [$parameter->getMinValue(), $parameter->getExclusiveMin(), $parameter->getMaxValue(), $parameter->getExclusiveMax()]
+        );
+    }
 }

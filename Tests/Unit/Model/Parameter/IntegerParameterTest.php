@@ -131,4 +131,38 @@ class IntegerParameterTest extends AbstractParameterTest
             ]
         );
     }
+
+    public function testOther()
+    {
+        $parameter = new IntegerParameter();
+
+        $this->assertSame(
+            [null, null, null, null],
+            [$parameter->getMinValue(), $parameter->getExclusiveMin(), $parameter->getMaxValue(), $parameter->getExclusiveMax()]
+        );
+
+        $parameter->setMinValue(5, false);
+        $this->assertSame(
+            [5, false, null, null],
+            [$parameter->getMinValue(), $parameter->getExclusiveMin(), $parameter->getMaxValue(), $parameter->getExclusiveMax()]
+        );
+
+        $parameter->setMinValue(6, true);
+        $this->assertSame(
+            [6, true, null, null],
+            [$parameter->getMinValue(), $parameter->getExclusiveMin(), $parameter->getMaxValue(), $parameter->getExclusiveMax()]
+        );
+
+        $parameter->setMaxValue(7, false);
+        $this->assertSame(
+            [6, true, 7, false],
+            [$parameter->getMinValue(), $parameter->getExclusiveMin(), $parameter->getMaxValue(), $parameter->getExclusiveMax()]
+        );
+
+        $parameter->setMaxValue(8, true);
+        $this->assertSame(
+            [6, true, 8, true],
+            [$parameter->getMinValue(), $parameter->getExclusiveMin(), $parameter->getMaxValue(), $parameter->getExclusiveMax()]
+        );
+    }
 }

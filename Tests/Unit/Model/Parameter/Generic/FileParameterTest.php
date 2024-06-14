@@ -33,12 +33,12 @@ class FileParameterTest extends AbstractParameterTest
         );
     }
 
-    private function testTypeKo()
+    public function testTypeKo()
     {
         $this->expectException(RouteException::class);
         $this->expectExceptionCode(3000);
         $this->expectExceptionMessage('Type of document undefined');
 
-        new FileParameter(['foo']);
+        new FileParameter([]);
     }
 }

@@ -161,4 +161,42 @@ class ArrayParameterTest extends AbstractParameterTest
             ]
         );
     }
+
+    public function testOther()
+    {
+        $parameter = new ArrayParameter();
+        $this->assertSame(
+            [null, null, null, null],
+            [$parameter->getMinItems(), $parameter->getExclusiveMin(), $parameter->getMaxItems(), $parameter->getExclusiveMax()]
+        );
+
+        $parameter->setMinItems(1, false);
+        $this->assertSame(
+            [1, false, null, null],
+            [$parameter->getMinItems(), $parameter->getExclusiveMin(), $parameter->getMaxItems(), $parameter->getExclusiveMax()]
+        );
+
+        $parameter->setMinItems(2, true);
+        $this->assertSame(
+            [2, true, null, null],
+            [$parameter->getMinItems(), $parameter->getExclusiveMin(), $parameter->getMaxItems(), $parameter->getExclusiveMax()]
+        );
+
+        $parameter->setMaxItems(3, false);
+        $this->assertSame(
+            [2, true, 3, false],
+            [$parameter->getMinItems(), $parameter->getExclusiveMin(), $parameter->getMaxItems(), $parameter->getExclusiveMax()]
+        );
+
+        $parameter->setMaxItems(4, true);
+        $this->assertSame(
+            [2, true, 4, true],
+            [$parameter->getMinItems(), $parameter->getExclusiveMin(), $parameter->getMaxItems(), $parameter->getExclusiveMax()]
+        );
+
+        $this->assertNull($parameter->getItemParameter());
+        $itemParameter = new StringParameter();
+        $parameter->setItemParameter($itemParameter);
+        $this->assertSame($itemParameter, $parameter->getItemParameter());
+    }
 }
