@@ -1,7 +1,7 @@
 services:
     Spipu\ApiPartnerBundle\:
-        resource: '../../*'
-        exclude: '../../{DependencyInjection,Entity,Tests,SpipuApiPartnerBundle.php}'
+        resource: '../src/*'
+        exclude: '../src/{Entity,Model,SpipuApiPartnerBundle.php}'
         autowire: true
         autoconfigure: true
 
