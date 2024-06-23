@@ -25,11 +25,8 @@ use Throwable;
 
 class ContextService
 {
-    public function buildContext(Context $context, Request $request, RouteInterface $route): void
+    public function buildContext(Context $context, Request $request): void
     {
-        $context->setRoute($route);
-        $context->setPartner($request->getPartner());
-
         $this->populatePathParameters($context, $request);
         $this->populateQueryParameters($context, $request);
         $this->populateBodyParameters($context, $request);

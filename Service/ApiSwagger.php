@@ -14,25 +14,33 @@ declare(strict_types=1);
 namespace Spipu\ApiPartnerBundle\Service;
 
 use Spipu\ApiPartnerBundle\Api\RouteInterface;
+use Spipu\ApiPartnerBundle\Entity\PartnerInterface;
 use Throwable;
 
 class ApiSwagger
 {
     private RouteService $routeService;
+    private RequestSecurityServiceInterface $requestSecurityService;
 
     public function __construct(
-        RouteService $routeService
+        RouteService $routeService,
+        RequestSecurityServiceInterface $requestSecurityService
     ) {
         $this->routeService = $routeService;
+        $this->requestSecurityService = $requestSecurityService;
     }
 
-    public function getGroupedRouteCodes(): array
+    public function getGroupedRouteCodes(?PartnerInterface $partner = null): array
     {
-        $routeCodes = $this->routeService->getAvailableRoutes();
-        sort($routeCodes);
+        $routes = $this->routeService->getAvailableRoutes();
+        ksort($routes);
 
         $list = [];
-        foreach ($routeCodes as $routeCode) {
+        foreach ($routes as $route) {
+            if (!$this->requestSecurityService->isRouteAllowed($route, $partner)) {
+                continue;
+            }
+            $routeCode = $route->getCode();
             $parts = explode('-', $routeCode, 2);
             if (count($parts) === 1) {
                 $parts = ['Api', $routeCode];
@@ -43,16 +51,22 @@ class ApiSwagger
         return $list;
     }
 
-    public function getRoute(?string $routeCode): ?RouteInterface
+    public function getRoute(?string $routeCode, ?PartnerInterface $partner = null): ?RouteInterface
     {
         if ($routeCode === null) {
             return null;
         }
 
         try {
-            return $this->routeService->get($routeCode);
+            $route = $this->routeService->get($routeCode);
         } catch (Throwable $e) {
             return null;
         }
+
+        if (!$this->requestSecurityService->isRouteAllowed($route, $partner)) {
+            return null;
+        }
+
+        return $route;
     }
 }
