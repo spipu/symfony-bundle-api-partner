@@ -17,6 +17,7 @@ use Exception;
 use Spipu\ApiPartnerBundle\Api\ActionInterface;
 use Spipu\ApiPartnerBundle\Exception\ApiException;
 use Spipu\ApiPartnerBundle\Exception\ResponseException;
+use Spipu\ApiPartnerBundle\Exception\SecurityException;
 use Spipu\ApiPartnerBundle\Model\Context;
 use Spipu\ApiPartnerBundle\Model\Request;
 use Spipu\ApiPartnerBundle\Model\Response;
@@ -39,6 +40,7 @@ class ApiService
     private ContainerInterface $container;
     private ConfigurationManager $configurationManager;
     private EnvironmentInterface $environment;
+    private RequestSecurityServiceInterface $requestSecurityService;
 
     public function __construct(
         RequestService $requestService,
@@ -47,7 +49,8 @@ class ApiService
         LogBuilderFactory $logBuilderFactory,
         ContainerInterface $container,
         ConfigurationManager $configurationManager,
-        EnvironmentInterface $environment
+        EnvironmentInterface $environment,
+        RequestSecurityServiceInterface $requestSecurityService
     ) {
         $this->requestService = $requestService;
         $this->contextService = $contextService;
@@ -56,15 +59,16 @@ class ApiService
         $this->container = $container;
         $this->configurationManager = $configurationManager;
         $this->environment = $environment;
+        $this->requestSecurityService = $requestSecurityService;
     }
 
-    public function execute(string $route, SymfonyRequest $symfonyRequest): Response
+    public function execute(string $routeUrl, SymfonyRequest $symfonyRequest): Response
     {
         $startTime = (float) microtime(true);
         $hideError = false;
         $responseFormatError = null;
         try {
-            $response = $this->prepareAndExecute($route, $symfonyRequest);
+            $response = $this->prepareAndExecute($routeUrl, $symfonyRequest);
             $responseFormat = $this->lastContext->getRoute()->getResponseFormat();
             if ($responseFormat && $this->mustValidateResponseFormat()) {
                 $this->contextService->validateResponseFormat($responseFormat, $response);
@@ -126,22 +130,23 @@ class ApiService
         }
     }
 
-    private function prepareAndExecute(string $route, SymfonyRequest $symfonyRequest): Response
+    private function prepareAndExecute(string $routeUrl, SymfonyRequest $symfonyRequest): Response
     {
         $this->lastRequest = new Request();
         $this->lastContext = new Context();
 
-        $this->requestService->buildRequest(
-            $this->lastRequest,
-            $route,
-            $symfonyRequest
-        );
+        $this->requestService->buildRequest($this->lastRequest, $routeUrl, $symfonyRequest);
 
-        $this->contextService->buildContext(
-            $this->lastContext,
-            $this->lastRequest,
-            $this->routeService->identifyRoute($this->lastRequest)
-        );
+        $route = $this->routeService->identifyRoute($this->lastRequest);
+
+        $this->lastContext->setRoute($route);
+        $this->lastContext->setPartner($this->lastRequest->getPartner());
+
+        if (!$this->requestSecurityService->isRouteAllowed($route, $this->lastContext->getPartner())) {
+            throw new SecurityException('Asked route is not allowed', SecurityException::ERROR_NOT_ALLOWED_ROUTE);
+        }
+
+        $this->contextService->buildContext($this->lastContext, $this->lastRequest);
 
         return $this->executeAction();
     }

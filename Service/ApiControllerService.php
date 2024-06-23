@@ -30,9 +30,9 @@ class ApiControllerService
 
     public function entryPointAction(
         SymfonyRequest $symfonyRequest,
-        string $route
+        string $routeUrl
     ): Response {
-        $apiResponse = $this->apiService->execute($route, $symfonyRequest);
+        $apiResponse = $this->apiService->execute($routeUrl, $symfonyRequest);
 
         if ($this->apiService->getLastRequest()->getApiKey() === '') {
             throw new NotFoundHttpException('API Key is missing');

@@ -102,11 +102,11 @@ class ApiTest extends WebTestCase
         $this->callApiPartner($client, 'GET', '/');
         $this->assertApiPartnerSecurityFailed($client, 'ERROR 1007 - Asked route is unknown');
 
+        $this->callApiPartner($client, 'POST', '/test/123', ['name' => 'test']);
+        $this->assertApiPartnerSecurityFailed($client, 'ERROR 1008 - Asked route is not allowed');
+
         $this->callApiPartner($client, 'GET', '/hello_world');
         $this->assertApiPartnerSecurityFailed($client, 'ERROR 2000 - name - parameter is required');
-
-        $this->callApiPartner($client, 'POST', '/test/123', ['name' => 'test']);
-        $this->assertApiPartnerSecurityFailed($client, 'ERROR 2000 - required_rows - parameter is required');
 
         $this->setPartnerConfigurationCredentials(false, $apiKey, $apiSecret);
 
