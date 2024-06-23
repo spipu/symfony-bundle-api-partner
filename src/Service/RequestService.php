@@ -25,11 +25,11 @@ class RequestService
         $this->requestSecurityService = $requestSecurityService;
     }
 
-    public function buildRequest(Request $request, string $route, SymfonyRequest $symfonyRequest): void
+    public function buildRequest(Request $request, string $routeUrl, SymfonyRequest $symfonyRequest): void
     {
         $request->setUserAgent($symfonyRequest->headers->get('User-Agent', ''));
         $request->setUserIp($symfonyRequest->getClientIp());
-        $request->setRoute($route);
+        $request->setRoute($routeUrl);
         $request->setMethod($symfonyRequest->getMethod());
         $request->setQueryString($symfonyRequest->server->get('QUERY_STRING', ''));
         $request->setQueryArray($symfonyRequest->query->all());

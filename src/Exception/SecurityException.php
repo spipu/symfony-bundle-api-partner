@@ -22,4 +22,5 @@ class SecurityException extends ApiException
     public const ERROR_INVALID_REQUEST_TIME = 1005;
     public const ERROR_INVALID_REQUEST_HASH = 1006;
     public const ERROR_UNKNOWN_ROUTE        = 1007;
+    public const ERROR_NOT_ALLOWED_ROUTE    = 1008;
 }

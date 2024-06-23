@@ -48,7 +48,7 @@ class RouteService
 
     public function getAvailableRoutes(): array
     {
-        return array_keys($this->routes);
+        return $this->routes;
     }
 
     public function identifyRoute(Request $request): RouteInterface
