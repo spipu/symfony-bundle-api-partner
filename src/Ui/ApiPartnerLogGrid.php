@@ -71,20 +71,20 @@ class ApiPartnerLogGrid implements GridDefinitionInterface
                     ->useSortable()
             )
             ->addColumn(
-                (new Grid\Column('user_ip', 'spipu.api_partner.log.field.user_ip', 'userIp', 40))
+                (new Grid\Column('userIp', 'spipu.api_partner.log.field.user_ip', 'userIp', 40))
                     ->setType((new Grid\ColumnType(Grid\ColumnType::TYPE_TEXT)))
                     ->setFilter((new Grid\ColumnFilter(true, true)))
                     ->useSortable()
             )
             ->addColumn(
-                (new Grid\Column('route_code', 'spipu.api_partner.log.field.route_code', 'routeCode', 50))
+                (new Grid\Column('routeCode', 'spipu.api_partner.log.field.route_code', 'routeCode', 50))
                     ->setType((new Grid\ColumnType(Grid\ColumnType::TYPE_TEXT)))
                     ->setFilter((new Grid\ColumnFilter(true, true)))
                     ->useSortable()
             )
             ->addColumn(
                 (new Grid\Column(
-                    'response_status',
+                    'responseStatus',
                     'spipu.api_partner.log.field.response_status',
                     'responseStatus',
                     60
@@ -106,13 +106,13 @@ class ApiPartnerLogGrid implements GridDefinitionInterface
                     ->useSortable()
             )
             ->addColumn(
-                (new Grid\Column('response_code', 'spipu.api_partner.log.field.response_code', 'responseCode', 70))
+                (new Grid\Column('responseCode', 'spipu.api_partner.log.field.response_code', 'responseCode', 70))
                     ->setType((new Grid\ColumnType(Grid\ColumnType::TYPE_INTEGER)))
                     ->setFilter((new Grid\ColumnFilter(true, true)))
                     ->useSortable()
             )
             ->addColumn(
-                (new Grid\Column('memory_usage', 'spipu.api_partner.log.field.memory_usage', 'memoryUsage', 80))
+                (new Grid\Column('memoryUsage', 'spipu.api_partner.log.field.memory_usage', 'memoryUsage', 80))
                     ->setType(
                         (new Grid\ColumnType(Grid\ColumnType::TYPE_INTEGER))
                             ->setTemplateField('@SpipuUi/grid/field/size.html.twig')
