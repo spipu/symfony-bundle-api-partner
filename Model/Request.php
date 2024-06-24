@@ -114,10 +114,12 @@ class Request
     {
         $this->bodyString = $bodyString;
 
-        $this->bodyArray = json_decode($bodyString, true);
-        if (!is_array($this->bodyArray)) {
-            $this->bodyArray = [];
+        $bodyDecoded = json_decode($bodyString, true);
+        if (!is_array($bodyDecoded)) {
+            $bodyDecoded = [];
         }
+
+        $this->bodyArray = $bodyDecoded;
     }
 
     public function getPartner(): ?PartnerInterface
