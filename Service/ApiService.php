@@ -36,7 +36,7 @@ class ApiService
     private RouteService $routeService;
     private Request $lastRequest;
     private Context $lastContext;
-    private LogBuilderFactory $logBuilderFactory;
+    private LoggerServiceInterface $loggerService;
     private ContainerInterface $container;
     private ConfigurationManager $configurationManager;
     private EnvironmentInterface $environment;
@@ -46,7 +46,7 @@ class ApiService
         RequestService $requestService,
         ContextService $contextService,
         RouteService $routeService,
-        LogBuilderFactory $logBuilderFactory,
+        LoggerServiceInterface $loggerService,
         ContainerInterface $container,
         ConfigurationManager $configurationManager,
         EnvironmentInterface $environment,
@@ -55,7 +55,7 @@ class ApiService
         $this->requestService = $requestService;
         $this->contextService = $contextService;
         $this->routeService = $routeService;
-        $this->logBuilderFactory = $logBuilderFactory;
+        $this->loggerService = $loggerService;
         $this->container = $container;
         $this->configurationManager = $configurationManager;
         $this->environment = $environment;
@@ -100,31 +100,18 @@ class ApiService
 
     private function createLog(Response $response, float $duration, ?string $responseFormatError): void
     {
-        if ($this->getLastRequest()->getApiKey() === '') {
-            return;
-        }
-
-        if ($response->getCode() === 200 && !$this->isLogDebugEnabled() && $responseFormatError === null) {
-            return;
-        }
-
         try {
-            $builder = $this->logBuilderFactory->create();
+            $log = $this->loggerService->createLog(
+                $this->getLastRequest(),
+                $this->getLastContext(),
+                $response,
+                $duration,
+                $responseFormatError
+            );
 
-            $builder->addRequest($this->getLastRequest());
-            if ($this->getLastContext()->getRoute()) {
-                $builder->addRouteCode(
-                    $this->getLastContext()->getRoute()->getCode()
-                );
+            if ($log) {
+                $response->setLogId($log->getId());
             }
-            $builder->addResponse($response);
-            $builder->addDuration($duration);
-            if ($responseFormatError) {
-                $builder->addResponseFormatError($responseFormatError);
-            }
-
-            $log = $builder->create();
-            $response->setLogId($log->getId());
         } catch (Exception $e) {
             $response->setLogError($e->getMessage());
         }
@@ -176,11 +163,6 @@ class ApiService
     public function getLastContext(): Context
     {
         return $this->lastContext;
-    }
-
-    public function isLogDebugEnabled(): bool
-    {
-        return (bool) $this->configurationManager->get('api.partner.log_debug');
     }
 
     public function mustValidateResponseFormat(): bool

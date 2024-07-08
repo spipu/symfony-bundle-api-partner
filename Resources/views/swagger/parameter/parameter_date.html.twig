@@ -8,6 +8,11 @@
 <small>Format: <span class="badge badge-light">2000-01-01</span></small>
 <br />
 
+{% if parameter.defaultValue is not null %}
+    <small>Default value:</small><span class="badge badge-light">{{ parameter.defaultValue|date('Y-m-d') }}</span>
+    <br />
+{% endif %}
+
 {% if parameter.description %}
     <span class="small font-italic">{{ parameter.description|raw }}</span>
     <br />

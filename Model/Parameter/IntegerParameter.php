@@ -85,7 +85,7 @@ class IntegerParameter extends AbstractParameter
         return $this;
     }
 
-    protected function getDefaultValue(): ?int
+    public function getDefaultValue(): ?int
     {
         return $this->defaultValue;
     }

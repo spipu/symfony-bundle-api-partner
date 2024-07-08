@@ -4,6 +4,12 @@ spipu_configuration:
         required: true
         default:  true
 
+    api.partner.log_slow_query:
+        type:     "integer"
+        required: true
+        default:  30
+        unit: "s"
+
     api.partner.validate_response_format:
         type:     "boolean"
         required: true
