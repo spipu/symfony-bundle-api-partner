@@ -35,7 +35,7 @@ class BooleanParameter extends AbstractParameter
         return $this;
     }
 
-    protected function getDefaultValue(): ?bool
+    public function getDefaultValue(): ?bool
     {
         return $this->defaultValue;
     }

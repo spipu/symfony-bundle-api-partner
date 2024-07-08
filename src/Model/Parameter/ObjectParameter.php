@@ -44,7 +44,7 @@ class ObjectParameter extends AbstractParameter
         return $this->properties;
     }
 
-    protected function getDefaultValue(): ?string
+    public function getDefaultValue(): ?string
     {
         return null;
     }
