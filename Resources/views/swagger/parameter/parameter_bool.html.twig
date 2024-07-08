@@ -12,6 +12,11 @@
 <span class="badge badge-light">true</span>
 <br />
 
+{% if parameter.defaultValue is not null %}
+    <small>Default value:</small><span class="badge badge-light">{% if parameter.defaultValue %}true{% else %}false{% endif %}</span>
+    <br />
+{% endif %}
+
 {% if parameter.description %}
     <span class="small font-italic">{{ parameter.description|raw }}</span>
     <br />

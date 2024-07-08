@@ -9,6 +9,11 @@
     <br />
 {% endif %}
 
+{% if parameter.defaultValue is not null %}
+    <small>Default value:</small><span class="badge badge-light">Yes</span>
+    <br />
+{% endif %}
+
 <div class="ml-4">
     {% include '@SpipuApiPartner/swagger/parameters.html.twig' with {parameters: parameter.properties} %}
 </div>

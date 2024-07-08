@@ -98,7 +98,7 @@ class ArrayParameter extends AbstractParameter
         return $this;
     }
 
-    protected function getDefaultValue(): ?array
+    public function getDefaultValue(): ?array
     {
         return $this->defaultValue;
     }

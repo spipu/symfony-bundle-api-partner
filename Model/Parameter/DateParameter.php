@@ -39,7 +39,7 @@ class DateParameter extends AbstractParameter
         return $this;
     }
 
-    protected function getDefaultValue(): ?DateTimeInterface
+    public function getDefaultValue(): ?DateTimeInterface
     {
         return $this->defaultValue;
     }

@@ -112,7 +112,7 @@ class StringParameter extends AbstractParameter
         return $this;
     }
 
-    protected function getDefaultValue(): ?string
+    public function getDefaultValue(): ?string
     {
         return $this->defaultValue;
     }

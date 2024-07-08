@@ -85,7 +85,7 @@ class NumberParameter extends AbstractParameter
         return $this;
     }
 
-    protected function getDefaultValue(): ?float
+    public function getDefaultValue(): ?float
     {
         return $this->defaultValue;
     }
