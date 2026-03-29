@@ -1,14 +1,16 @@
-# How to Install This symfony Bundle
+# Installing Spipu API Partner Bundle
 
 [back](./README.md)
 
-## Composer
+## Requirements
 
-You must use Composer to install this symfony bundle.
+- PHP 8.1+
+- Symfony 6.4+
+- `spipu/core-bundle`
+- `spipu/ui-bundle`
+- `spipu/configuration-bundle`
 
-You must already have created a Symfony 5.4 project.
-
-You have just to launch the following command on the root folder of your project:
+## Installation
 
 ```bash
 composer require spipu/api-partner-bundle
@@ -16,6 +18,124 @@ composer require spipu/api-partner-bundle
 
 ## Configuration
 
-@todo
+### 1. Register the bundle
+
+In `config/bundles.php`:
+
+```php
+return [
+    // ...
+    Spipu\CoreBundle\SpipuCoreBundle::class => ['all' => true],
+    Spipu\UiBundle\SpipuUiBundle::class => ['all' => true],
+    Spipu\ConfigurationBundle\SpipuConfigurationBundle::class => ['all' => true],
+    Spipu\ApiPartnerBundle\SpipuApiPartnerBundle::class => ['all' => true],
+];
+```
+
+### 2. Import routes
+
+In `config/routes.yaml`:
+
+```yaml
+spipu_api_partner:
+    resource: '@SpipuApiPartnerBundle/config/routes.yaml'
+```
+
+### 3. Run database migrations
+
+The bundle provides the `ApiLogPartner` entity to store request logs:
+
+```bash
+php bin/console doctrine:migrations:diff
+php bin/console doctrine:migrations:migrate
+```
+
+### 4. Implement PartnerRepositoryInterface
+
+Create a service that looks up partners by API key. The bundle does **not** provide a partner entity or CRUD UI — this is the responsibility of the application.
+
+```php
+use Spipu\ApiPartnerBundle\Repository\PartnerRepositoryInterface;
+use Spipu\ApiPartnerBundle\Entity\PartnerInterface;
+
+class MyPartnerRepository implements PartnerRepositoryInterface
+{
+    public function __construct(private ApiPartnerDoctrineRepository $repo) {}
+
+    public function getAllPartners(): array
+    {
+        return $this->repo->findAll();
+    }
+
+    public function getPartnerByApiKey(string $apiKey): ?PartnerInterface
+    {
+        return $this->repo->findOneBy(['apiKey' => $apiKey, 'active' => true]);
+    }
+
+    public function getPartnerById(int $id): ?PartnerInterface
+    {
+        return $this->repo->find($id);
+    }
+}
+```
+
+Register it:
+
+```yaml
+App\Api\MyPartnerRepository:
+    tags:
+        - { name: spipu.api_partner.repository }
+```
+
+### 5. Implement RequestSecurityServiceInterface
+
+This service validates the incoming request (signature, timestamp, etc.) and decides which routes a given partner is allowed to call:
+
+```php
+use Spipu\ApiPartnerBundle\Service\RequestSecurityServiceInterface;
+use Spipu\ApiPartnerBundle\Api\RouteInterface;
+use Spipu\ApiPartnerBundle\Entity\PartnerInterface;
+use Spipu\ApiPartnerBundle\Model\Request;
+use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
+
+class MyRequestSecurity implements RequestSecurityServiceInterface
+{
+    public function validate(Request $request, SymfonyRequest $symfonyRequest): void
+    {
+        // Validate the request (e.g., check HMAC signature, timestamp replay protection)
+        // Throw SecurityException if invalid
+    }
+
+    public function isRouteAllowed(RouteInterface $route, ?PartnerInterface $partner): bool
+    {
+        if ($partner === null || !$partner->isApiEnabled()) {
+            return false;
+        }
+        // e.g., check that the partner has access to this route code
+        return true;
+    }
+}
+```
+
+Register it:
+
+```yaml
+App\Api\MyRequestSecurity:
+    tags:
+        - { name: spipu.api_partner.security }
+```
+
+### 6. Register your API route classes
+
+```yaml
+App\Api\Route\:
+    resource: '../src/Api/Route/'
+    tags:
+        - { name: spipu.api_partner.route }
+```
+
+## Admin Log Viewer
+
+API request logs are available at `/admin/api-partner/log/`. See [API Logs](./logs.md).
 
 [back](./README.md)
