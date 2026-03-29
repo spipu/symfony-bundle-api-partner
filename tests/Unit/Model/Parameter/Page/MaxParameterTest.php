@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Spipu\ApiPartnerBundle\Tests\Unit\Model\Parameter\Page;
 
 use Spipu\ApiPartnerBundle\Tests\Unit\Model\Parameter\AbstractParameterTest;
@@ -9,7 +11,7 @@ use Spipu\ApiPartnerBundle\Model\ParameterInterface;
 
 class MaxParameterTest extends AbstractParameterTest
 {
-    public function testBase()
+    public function testBase(): void
     {
         $parameter = new MaxParameter();
         $this->assertInstanceOf(ParameterInterface::class, $parameter);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Spipu\ApiPartnerBundle\Tests\Unit\Model;
 
 use App\Api\Route\Test\HelloWorld;
@@ -10,7 +12,7 @@ use Spipu\ApiPartnerBundle\Model\Context;
 
 class ContextTest extends TestCase
 {
-    public function testBase()
+    public function testBase(): void
     {
         $partner = new Partner(true, '', '');
         $route = new HelloWorld();
@@ -24,7 +26,7 @@ class ContextTest extends TestCase
         $this->assertSame($route, $context->getRoute());
     }
 
-    public function testPath()
+    public function testPath(): void
     {
         $params = ['string' => 'foo', 'int' => 1, 'bool' => true, 'float' => 1.5, 'array' => [1,3,5]];
         $context = new Context();
@@ -38,7 +40,7 @@ class ContextTest extends TestCase
         $context->getPathParameter('wrong');
     }
 
-    public function testQuery()
+    public function testQuery(): void
     {
         $params = ['string' => 'foo', 'int' => 1, 'bool' => true, 'float' => 1.5, 'array' => [1,3,5]];
         $context = new Context();
@@ -52,7 +54,7 @@ class ContextTest extends TestCase
         $context->getQueryParameter('wrong');
     }
 
-    public function testBody()
+    public function testBody(): void
     {
         $params = ['string' => 'foo', 'int' => 1, 'bool' => true, 'float' => 1.5, 'array' => [1,3,5]];
         $context = new Context();

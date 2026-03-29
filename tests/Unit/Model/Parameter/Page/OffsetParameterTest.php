@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Spipu\ApiPartnerBundle\Tests\Unit\Model\Parameter\Page;
 
 use Spipu\ApiPartnerBundle\Tests\Unit\Model\Parameter\AbstractParameterTest;
@@ -9,7 +11,7 @@ use Spipu\ApiPartnerBundle\Model\ParameterInterface;
 
 class OffsetParameterTest extends AbstractParameterTest
 {
-    public function testBase()
+    public function testBase(): void
     {
         $parameter = new OffsetParameter();
         $this->assertInstanceOf(ParameterInterface::class, $parameter);

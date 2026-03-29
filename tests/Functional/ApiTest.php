@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Spipu\ApiPartnerBundle\Tests\Functional;
 
 use Spipu\ConfigurationBundle\Service\ConfigurationManager;
@@ -13,7 +15,7 @@ class ApiTest extends WebTestCase
 
     protected string $apiEndPointUrl = '/api';
 
-    public function testMainOk()
+    public function testMainOk(): void
     {
         $apiKey = md5('good_api_key');
         $apiSecret = md5('good_api_secret');
@@ -33,7 +35,7 @@ class ApiTest extends WebTestCase
         $this->assertArrayHasKey('version', $result);
     }
 
-    public function testMainKo()
+    public function testMainKo(): void
     {
         $apiKey = md5('good_api_key');
         $apiSecret = md5('good_api_secret');
@@ -52,7 +54,6 @@ class ApiTest extends WebTestCase
         ];
         $client->request('GET', $this->apiEndPointUrl . '/', [], [], $headers);
         $this->assertApiPartnerSecurityFailed($client, 'ERROR 1002 - Request Time header is missing');
-
 
         $headers = [
             'HTTP_api-key'          => 'fake_api_key',

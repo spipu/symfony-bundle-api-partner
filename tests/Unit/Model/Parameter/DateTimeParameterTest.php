@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Spipu\ApiPartnerBundle\Tests\Unit\Model\Parameter;
 
 use DateTime;
@@ -8,7 +10,7 @@ use Spipu\ApiPartnerBundle\Model\Parameter\DateTimeParameter;
 
 class DateTimeParameterTest extends AbstractParameterTest
 {
-    public function testBase()
+    public function testBase(): void
     {
 
         $this->fullTest(
@@ -39,7 +41,7 @@ class DateTimeParameterTest extends AbstractParameterTest
         $this->assertSame($value->format('Y-m-d H:i:s'), $result->format('Y-m-d H:i:s'));
     }
 
-    public function testNotRequired()
+    public function testNotRequired(): void
     {
         $this->fullTest(
             (new DateTimeParameter())->setRequired(false),
@@ -60,7 +62,7 @@ class DateTimeParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testRequired()
+    public function testRequired(): void
     {
         $this->fullTest(
             (new DateTimeParameter())->setRequired(true),

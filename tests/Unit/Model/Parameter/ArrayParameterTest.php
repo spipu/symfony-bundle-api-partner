@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Spipu\ApiPartnerBundle\Tests\Unit\Model\Parameter;
 
 use Spipu\ApiPartnerBundle\Model\Parameter\ArrayParameter;
@@ -8,7 +10,7 @@ use Spipu\ApiPartnerBundle\Model\Parameter\StringParameter;
 
 class ArrayParameterTest extends AbstractParameterTest
 {
-    public function testBase()
+    public function testBase(): void
     {
         $this->fullTest(
             new ArrayParameter(),
@@ -31,7 +33,7 @@ class ArrayParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testNotRequired()
+    public function testNotRequired(): void
     {
         $this->fullTest(
             (new ArrayParameter())->setRequired(false),
@@ -50,7 +52,7 @@ class ArrayParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testRequired()
+    public function testRequired(): void
     {
         $this->fullTest(
             (new ArrayParameter())->setRequired(true),
@@ -61,7 +63,7 @@ class ArrayParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testMinItemInclusive()
+    public function testMinItemInclusive(): void
     {
         $this->fullTest(
             (new ArrayParameter())->setMinItems(2, false),
@@ -79,7 +81,7 @@ class ArrayParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testMinItemExclusive()
+    public function testMinItemExclusive(): void
     {
         $this->fullTest(
             (new ArrayParameter())->setMinItems(2, true),
@@ -97,7 +99,7 @@ class ArrayParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testMaxItemInclusive()
+    public function testMaxItemInclusive(): void
     {
         $this->fullTest(
             (new ArrayParameter())->setMaxItems(2, false),
@@ -115,7 +117,7 @@ class ArrayParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testMaxItemExclusive()
+    public function testMaxItemExclusive(): void
     {
         $this->fullTest(
             (new ArrayParameter())->setMaxItems(2, true),
@@ -133,7 +135,7 @@ class ArrayParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testValueType()
+    public function testValueType(): void
     {
         $this->fullTest(
             (new ArrayParameter())->setItemParameter(new IntegerParameter()),
@@ -162,7 +164,7 @@ class ArrayParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testOther()
+    public function testOther(): void
     {
         $parameter = new ArrayParameter();
         $this->assertSame(

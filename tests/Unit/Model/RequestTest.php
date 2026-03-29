@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Spipu\ApiPartnerBundle\Tests\Unit\Model;
 
 use App\Model\Partner;
@@ -8,7 +10,7 @@ use Spipu\ApiPartnerBundle\Model\Request;
 
 class RequestTest extends TestCase
 {
-    public function testBase()
+    public function testBase(): void
     {
         $partner = new Partner(true, 'key', 'secret');
 

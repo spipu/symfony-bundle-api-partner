@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Spipu\ApiPartnerBundle\Tests\Unit\Model\Parameter;
 
 use Spipu\ApiPartnerBundle\Model\Parameter\IntegerParameter;
@@ -8,7 +10,7 @@ use Spipu\ApiPartnerBundle\Model\Parameter\StringParameter;
 
 class ObjectParameterTest extends AbstractParameterTest
 {
-    public function testBase()
+    public function testBase(): void
     {
         $this->fullTest(
             new ObjectParameter(),
@@ -29,7 +31,7 @@ class ObjectParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testNotRequired()
+    public function testNotRequired(): void
     {
         $this->fullTest(
             (new ObjectParameter())->setRequired(false),
@@ -40,7 +42,7 @@ class ObjectParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testRequired()
+    public function testRequired(): void
     {
         $this->fullTest(
             (new ObjectParameter())->setRequired(true),
@@ -51,7 +53,7 @@ class ObjectParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testProperties()
+    public function testProperties(): void
     {
         $this->fullTest(
             (new ObjectParameter())
@@ -71,7 +73,7 @@ class ObjectParameterTest extends AbstractParameterTest
             ]
         );
     }
-    public function testOther()
+    public function testOther(): void
     {
         $parameter = new ObjectParameter();
 

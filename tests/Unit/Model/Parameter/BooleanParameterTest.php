@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Spipu\ApiPartnerBundle\Tests\Unit\Model\Parameter;
 
 use Spipu\ApiPartnerBundle\Model\Parameter\BooleanParameter;
 
 class BooleanParameterTest extends AbstractParameterTest
 {
-    public function testBase()
+    public function testBase(): void
     {
         $this->fullTest(
             new BooleanParameter(),
@@ -36,7 +38,7 @@ class BooleanParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testNotRequired()
+    public function testNotRequired(): void
     {
         $this->fullTest(
             (new BooleanParameter())->setRequired(false),
@@ -55,7 +57,7 @@ class BooleanParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testRequired()
+    public function testRequired(): void
     {
         $this->fullTest(
             (new BooleanParameter())->setRequired(true),

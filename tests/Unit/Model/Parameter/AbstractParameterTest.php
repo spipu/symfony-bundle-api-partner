@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Spipu\ApiPartnerBundle\Tests\Unit\Model\Parameter;
 
 use PHPUnit\Framework\TestCase;
@@ -22,7 +24,7 @@ abstract class AbstractParameterTest extends TestCase
         string $name,
         array $badValues,
         array $goodValues
-    ) {
+    ): void {
         $this->assertInstanceOf(ParameterInterface::class, $parameter);
 
         /** @var ParameterInterface $parameter */

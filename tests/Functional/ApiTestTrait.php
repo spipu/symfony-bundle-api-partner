@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Spipu\ApiPartnerBundle\Tests\Functional;
 
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -122,7 +124,7 @@ trait ApiTestTrait
         return (string) $client->getResponse()->getContent();
     }
 
-    protected function assertApiPartnerSecurityFailed(KernelBrowser $client, string $errorMessage)
+    protected function assertApiPartnerSecurityFailed(KernelBrowser $client, string $errorMessage): void
     {
         $this->assertSame(500, $client->getResponse()->getStatusCode());
         $this->assertSame($errorMessage, $client->getResponse()->getContent());

@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Spipu\ApiPartnerBundle\Tests\Unit\Model\Parameter;
 
 use Spipu\ApiPartnerBundle\Model\Parameter\StringParameter;
 
 class StringParameterTest extends AbstractParameterTest
 {
-    public function testBase()
+    public function testBase(): void
     {
         $this->fullTest(
             new StringParameter(),
@@ -29,7 +31,7 @@ class StringParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testNotRequired()
+    public function testNotRequired(): void
     {
         $this->fullTest(
             (new StringParameter())->setRequired(false),
@@ -48,7 +50,7 @@ class StringParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testRequired()
+    public function testRequired(): void
     {
         $this->fullTest(
             (new StringParameter())->setRequired(true),
@@ -59,7 +61,7 @@ class StringParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testMinInclusive()
+    public function testMinInclusive(): void
     {
         $this->fullTest(
             (new StringParameter())->setMinLength(2, false),
@@ -77,7 +79,7 @@ class StringParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testMinExclusive()
+    public function testMinExclusive(): void
     {
         $this->fullTest(
             (new StringParameter())->setMinLength(2, true),
@@ -95,7 +97,7 @@ class StringParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testMaxInclusive()
+    public function testMaxInclusive(): void
     {
         $this->fullTest(
             (new StringParameter())->setMaxLength(2, false),
@@ -113,7 +115,7 @@ class StringParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testMaxExclusive()
+    public function testMaxExclusive(): void
     {
         $this->fullTest(
             (new StringParameter())->setMaxLength(2, true),
@@ -131,7 +133,7 @@ class StringParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testEnum()
+    public function testEnum(): void
     {
         $this->fullTest(
             (new StringParameter())->setEnum(['yes', 'no']),
@@ -148,7 +150,7 @@ class StringParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testPattern()
+    public function testPattern(): void
     {
         $pattern = '/^[0-9]{4}-[0-9]{2}$/';
         $this->fullTest(
@@ -165,7 +167,7 @@ class StringParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testOther()
+    public function testOther(): void
     {
         $parameter = new StringParameter();
         $this->assertNull($parameter->getDescription());

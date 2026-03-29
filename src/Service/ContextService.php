@@ -115,7 +115,7 @@ class ContextService
         $context->setBodyParameters($values);
     }
 
-    private function validateParameter(string $key, ParameterInterface $parameter, array $values)
+    private function validateParameter(string $key, ParameterInterface $parameter, array $values): mixed
     {
         $value = null;
         if (array_key_exists($key, $values)) {

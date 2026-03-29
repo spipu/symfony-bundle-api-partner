@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Spipu\ApiPartnerBundle\Tests\Unit\Model\Parameter;
 
 use Spipu\ApiPartnerBundle\Model\Parameter\IntegerParameter;
 
 class IntegerParameterTest extends AbstractParameterTest
 {
-    public function testBase()
+    public function testBase(): void
     {
         $this->fullTest(
             new IntegerParameter(),
@@ -30,7 +32,7 @@ class IntegerParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testNotRequired()
+    public function testNotRequired(): void
     {
         $this->fullTest(
             (new IntegerParameter())->setRequired(false),
@@ -49,7 +51,7 @@ class IntegerParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testRequired()
+    public function testRequired(): void
     {
         $this->fullTest(
             (new IntegerParameter())->setRequired(true),
@@ -60,7 +62,7 @@ class IntegerParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testMinInclusive()
+    public function testMinInclusive(): void
     {
         $this->fullTest(
             (new IntegerParameter())->setMinValue(2, false),
@@ -78,7 +80,7 @@ class IntegerParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testMinExclusive()
+    public function testMinExclusive(): void
     {
         $this->fullTest(
             (new IntegerParameter())->setMinValue(2, true),
@@ -96,7 +98,7 @@ class IntegerParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testMaxInclusive()
+    public function testMaxInclusive(): void
     {
         $this->fullTest(
             (new IntegerParameter())->setMaxValue(2, false),
@@ -114,7 +116,7 @@ class IntegerParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testMaxExclusive()
+    public function testMaxExclusive(): void
     {
         $this->fullTest(
             (new IntegerParameter())->setMaxValue(2, true),
@@ -132,7 +134,7 @@ class IntegerParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testOther()
+    public function testOther(): void
     {
         $parameter = new IntegerParameter();
 

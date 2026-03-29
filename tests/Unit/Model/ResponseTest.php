@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Spipu\ApiPartnerBundle\Tests\Unit\Model;
 
 use PHPUnit\Framework\TestCase;
@@ -7,7 +9,7 @@ use Spipu\ApiPartnerBundle\Model\Response;
 
 class ResponseTest extends TestCase
 {
-    public function testGeneric()
+    public function testGeneric(): void
     {
         $response = new Response();
 
@@ -30,7 +32,7 @@ class ResponseTest extends TestCase
 
     }
 
-    public function testText()
+    public function testText(): void
     {
         $response = new Response();
 
@@ -40,7 +42,7 @@ class ResponseTest extends TestCase
         $this->assertFalse($response->isBinaryContent());
     }
 
-    public function testCsv()
+    public function testCsv(): void
     {
         $response = new Response();
 
@@ -50,7 +52,7 @@ class ResponseTest extends TestCase
         $this->assertFalse($response->isBinaryContent());
     }
 
-    public function testJson()
+    public function testJson(): void
     {
         $response = new Response();
 
@@ -61,7 +63,7 @@ class ResponseTest extends TestCase
         $this->assertFalse($response->isBinaryContent());
     }
 
-    public function testPdf()
+    public function testPdf(): void
     {
         $response = new Response();
 
@@ -72,7 +74,7 @@ class ResponseTest extends TestCase
         $this->assertTrue($response->isBinaryContent());
     }
 
-    public function testJpg()
+    public function testJpg(): void
     {
         $response = new Response();
 

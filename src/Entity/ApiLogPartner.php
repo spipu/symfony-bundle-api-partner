@@ -33,7 +33,6 @@ class ApiLogPartner implements EntityInterface
     #[ORM\Column]
     private ?int $id = null;
 
-
     #[ORM\Column(nullable: true)]
     private ?int $partnerId;
 

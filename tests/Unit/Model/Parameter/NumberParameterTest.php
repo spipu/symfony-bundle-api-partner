@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Spipu\ApiPartnerBundle\Tests\Unit\Model\Parameter;
 
 use Spipu\ApiPartnerBundle\Model\Parameter\NumberParameter;
 
 class NumberParameterTest extends AbstractParameterTest
 {
-    public function testBase()
+    public function testBase(): void
     {
         $this->fullTest(
             new NumberParameter(),
@@ -30,7 +32,7 @@ class NumberParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testNotRequired()
+    public function testNotRequired(): void
     {
         $this->fullTest(
             (new NumberParameter())->setRequired(false),
@@ -49,7 +51,7 @@ class NumberParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testRequired()
+    public function testRequired(): void
     {
         $this->fullTest(
             (new NumberParameter())->setRequired(true),
@@ -60,7 +62,7 @@ class NumberParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testMinInclusive()
+    public function testMinInclusive(): void
     {
         $this->fullTest(
             (new NumberParameter())->setMinValue(2.5, false),
@@ -78,7 +80,7 @@ class NumberParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testMinExclusive()
+    public function testMinExclusive(): void
     {
         $this->fullTest(
             (new NumberParameter())->setMinValue(2.5, true),
@@ -96,7 +98,7 @@ class NumberParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testMaxInclusive()
+    public function testMaxInclusive(): void
     {
         $this->fullTest(
             (new NumberParameter())->setMaxValue(2.5, false),
@@ -114,7 +116,7 @@ class NumberParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testMaxExclusive()
+    public function testMaxExclusive(): void
     {
         $this->fullTest(
             (new NumberParameter())->setMaxValue(2.5, true),
@@ -132,7 +134,7 @@ class NumberParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testOther()
+    public function testOther(): void
     {
         $parameter = new NumberParameter();
 

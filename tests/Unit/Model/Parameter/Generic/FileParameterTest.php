@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Spipu\ApiPartnerBundle\Tests\Unit\Model\Parameter\Generic;
 
 use Spipu\ApiPartnerBundle\Tests\Unit\Model\Parameter\AbstractParameterTest;
@@ -11,7 +13,7 @@ use Spipu\ApiPartnerBundle\Model\ParameterInterface;
 
 class FileParameterTest extends AbstractParameterTest
 {
-    public function testOk()
+    public function testOk(): void
     {
         $parameter = new FileParameter(['pdf', 'csv']);
         $this->assertInstanceOf(ParameterInterface::class, $parameter);
@@ -33,7 +35,7 @@ class FileParameterTest extends AbstractParameterTest
         );
     }
 
-    public function testTypeKo()
+    public function testTypeKo(): void
     {
         $this->expectException(RouteException::class);
         $this->expectExceptionCode(3000);
