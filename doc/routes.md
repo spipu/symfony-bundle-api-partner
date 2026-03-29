@@ -103,8 +103,8 @@ class GetProductRoute implements RouteInterface, ActionInterface
 
     public function execute(Context $context): Response
     {
-        $id     = $context->getRequest()->getPathParam('id');
-        $locale = $context->getRequest()->getQueryParam('locale', 'en');
+        $id     = $context->getPathParameter('id');
+        $locale = $context->getQueryParameter('locale');
 
         $product = $this->products->find($id);
         if (!$product) {
@@ -144,14 +144,14 @@ class GetProductRoute implements RouteInterface, ActionInterface
 
 ## Registering Routes
 
-Tag the service with `spipu.api_partner.route`:
+Tag the service with `spipu.api-partner.route`:
 
 ```yaml
 # config/services.yaml
 App\Api\Route\:
     resource: '../src/Api/Route/'
     tags:
-        - { name: spipu.api_partner.route }
+        - { name: spipu.api-partner.route }
 ```
 
 [back](./README.md)

@@ -32,13 +32,51 @@ return [
 ];
 ```
 
-### 2. Import routes
+### 2. Create application controllers
 
-In `config/routes.yaml`:
+The bundle does not provide its own routes. The application must create:
 
-```yaml
-spipu_api_partner:
-    resource: '@SpipuApiPartnerBundle/config/routes.yaml'
+**API entry point** — routes all API calls to `ApiControllerService`:
+
+```php
+namespace App\Controller\ApiPartner;
+
+use Spipu\ApiPartnerBundle\Service\ApiControllerService;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
+
+#[Route(path: '/api')]
+class ApiEntryPointController extends AbstractController
+{
+    #[Route(path: '{route<.*>}', name: 'api_entrypoint')]
+    public function entryPointAction(
+        ApiControllerService $apiControllerService,
+        SymfonyRequest $symfonyRequest,
+        string $route
+    ): Response {
+        return $apiControllerService->entryPointAction($symfonyRequest, $route);
+    }
+}
+```
+
+**Admin log viewer** — renders the API log grid using `ApiPartnerLogGrid`:
+
+```php
+#[Route(path: '/api-partner/log')]
+class ApiLogController extends AbstractController
+{
+    #[Route(path: '/', name: 'app_api_partner_log_list')]
+    public function index(GridFactory $gridFactory, ApiPartnerLogGrid $grid): Response
+    {
+        $manager = $gridFactory->create($grid);
+        if ($manager->validate()) {
+            return $manager->getResponse();
+        }
+        return $this->render('api_partner/log/index.html.twig', ['manager' => $manager]);
+    }
+}
 ```
 
 ### 3. Run database migrations
@@ -79,12 +117,10 @@ class MyPartnerRepository implements PartnerRepositoryInterface
 }
 ```
 
-Register it:
+Register it as a service (autowired by interface — no tag required):
 
 ```yaml
-App\Api\MyPartnerRepository:
-    tags:
-        - { name: spipu.api_partner.repository }
+App\Api\MyPartnerRepository: ~
 ```
 
 ### 5. Implement RequestSecurityServiceInterface
@@ -117,21 +153,21 @@ class MyRequestSecurity implements RequestSecurityServiceInterface
 }
 ```
 
-Register it:
+Register it as a service (autowired by interface — no tag required):
 
 ```yaml
-App\Api\MyRequestSecurity:
-    tags:
-        - { name: spipu.api_partner.security }
+App\Api\MyRequestSecurity: ~
 ```
 
 ### 6. Register your API route classes
+
+Routes are collected via the `spipu.api-partner.route` tag:
 
 ```yaml
 App\Api\Route\:
     resource: '../src/Api/Route/'
     tags:
-        - { name: spipu.api_partner.route }
+        - { name: spipu.api-partner.route }
 ```
 
 ## Admin Log Viewer
