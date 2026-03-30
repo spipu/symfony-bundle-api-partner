@@ -28,7 +28,7 @@ trait ApiTestTrait
         string $uri,
         array $queryParams = [],
         string $requestBody = ''
-    ) {
+    ): void {
         $fullUri = $this->buildPartnerFullUri($uri, $queryParams);
         $headers = $this->buildPartnerHeaders($method, $fullUri, $requestBody);
 
