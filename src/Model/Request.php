@@ -25,7 +25,7 @@ class Request
     private string $queryString = '';
     private array $queryArray = [];
     private string $bodyString = '';
-    private ?array $bodyArray = [];
+    private array $bodyArray = [];
     private ?PartnerInterface $partner = null;
     private string $userIp = '';
     private string $userAgent = '';
