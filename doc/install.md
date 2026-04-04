@@ -42,7 +42,7 @@ The bundle does not provide its own routes. The application must create:
 namespace App\Controller\ApiPartner;
 
 use Spipu\ApiPartnerBundle\Service\ApiControllerService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Spipu\CoreBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
