@@ -6,9 +6,13 @@ namespace Spipu\ApiPartnerBundle\Tests\Unit\Model\Parameter;
 
 use DateTime;
 use DateTimeInterface;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\Attributes\CoversClass;
 use Spipu\ApiPartnerBundle\Model\Parameter\DateTimeParameter;
 
-class DateTimeParameterTest extends AbstractParameterTest
+#[AllowMockObjectsWithoutExpectations]
+#[CoversClass(DateTimeParameter::class)]
+class DateTimeParameterTest extends AbstractParameterTestCase
 {
     public function testBase(): void
     {

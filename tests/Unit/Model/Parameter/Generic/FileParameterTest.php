@@ -4,14 +4,18 @@ declare(strict_types=1);
 
 namespace Spipu\ApiPartnerBundle\Tests\Unit\Model\Parameter\Generic;
 
-use Spipu\ApiPartnerBundle\Tests\Unit\Model\Parameter\AbstractParameterTest;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\Attributes\CoversClass;
+use Spipu\ApiPartnerBundle\Tests\Unit\Model\Parameter\AbstractParameterTestCase;
 use Spipu\ApiPartnerBundle\Exception\RouteException;
 use Spipu\ApiPartnerBundle\Model\Parameter\Generic\FileParameter;
 use Spipu\ApiPartnerBundle\Model\Parameter\ObjectParameter;
 use Spipu\ApiPartnerBundle\Model\Parameter\StringParameter;
 use Spipu\ApiPartnerBundle\Model\ParameterInterface;
 
-class FileParameterTest extends AbstractParameterTest
+#[AllowMockObjectsWithoutExpectations]
+#[CoversClass(FileParameter::class)]
+class FileParameterTest extends AbstractParameterTestCase
 {
     public function testOk(): void
     {

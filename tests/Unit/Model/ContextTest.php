@@ -6,10 +6,14 @@ namespace Spipu\ApiPartnerBundle\Tests\Unit\Model;
 
 use App\Api\Route\Test\HelloWorld;
 use App\Model\Partner;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Spipu\ApiPartnerBundle\Exception\RouteException;
 use Spipu\ApiPartnerBundle\Model\Context;
 
+#[AllowMockObjectsWithoutExpectations]
+#[CoversClass(Context::class)]
 class ContextTest extends TestCase
 {
     public function testBase(): void

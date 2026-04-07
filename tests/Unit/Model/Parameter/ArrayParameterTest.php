@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace Spipu\ApiPartnerBundle\Tests\Unit\Model\Parameter;
 
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\Attributes\CoversClass;
 use Spipu\ApiPartnerBundle\Model\Parameter\ArrayParameter;
 use Spipu\ApiPartnerBundle\Model\Parameter\IntegerParameter;
 use Spipu\ApiPartnerBundle\Model\Parameter\StringParameter;
 
-class ArrayParameterTest extends AbstractParameterTest
+#[AllowMockObjectsWithoutExpectations]
+#[CoversClass(ArrayParameter::class)]
+class ArrayParameterTest extends AbstractParameterTestCase
 {
     public function testBase(): void
     {

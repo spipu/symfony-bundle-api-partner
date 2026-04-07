@@ -4,10 +4,15 @@ declare(strict_types=1);
 
 namespace Spipu\ApiPartnerBundle\Tests\Functional;
 
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\Attributes\CoversClass;
+use Spipu\ApiPartnerBundle\Service\ApiService;
 use Spipu\ConfigurationBundle\Service\ConfigurationManager;
 use Spipu\CoreBundle\Tests\WebTestCase;
 use Spipu\UiBundle\Tests\UiWebTestCaseTrait;
 
+#[AllowMockObjectsWithoutExpectations]
+#[CoversClass(ApiService::class)]
 class ApiTest extends WebTestCase
 {
     use UiWebTestCaseTrait;

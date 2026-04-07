@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace Spipu\ApiPartnerBundle\Tests\Unit\Model\Parameter\Page;
 
-use Spipu\ApiPartnerBundle\Tests\Unit\Model\Parameter\AbstractParameterTest;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\Attributes\CoversClass;
+use Spipu\ApiPartnerBundle\Tests\Unit\Model\Parameter\AbstractParameterTestCase;
 use Spipu\ApiPartnerBundle\Model\Parameter\IntegerParameter;
 use Spipu\ApiPartnerBundle\Model\Parameter\Page\OffsetParameter;
 use Spipu\ApiPartnerBundle\Model\ParameterInterface;
 
-class OffsetParameterTest extends AbstractParameterTest
+#[AllowMockObjectsWithoutExpectations]
+#[CoversClass(OffsetParameter::class)]
+class OffsetParameterTest extends AbstractParameterTestCase
 {
     public function testBase(): void
     {

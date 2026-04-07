@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Spipu\ApiPartnerBundle\Tests\Unit\Model\Parameter;
 
+use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\TestCase;
 use Spipu\ApiPartnerBundle\Exception\RouteException;
 use Spipu\ApiPartnerBundle\Model\ParameterInterface;
 
-abstract class AbstractParameterTest extends TestCase
+#[CoversNothing]
+abstract class AbstractParameterTestCase extends TestCase
 {
     /**
      * @param object $parameter

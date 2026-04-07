@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace Spipu\ApiPartnerBundle\Tests\Unit\Model;
 
 use App\Model\Partner;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Spipu\ApiPartnerBundle\Model\Request;
 
+#[AllowMockObjectsWithoutExpectations]
+#[CoversClass(Request::class)]
 class RequestTest extends TestCase
 {
     public function testBase(): void
