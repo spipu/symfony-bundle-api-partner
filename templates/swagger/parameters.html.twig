@@ -1,7 +1,7 @@
 <ul class="list-group list-group-flush">
     {% for key, parameter in parameters %}
         <li class="list-group-item">
-            <i class="fas fa-chevron-right"></i> <b>{{ key }}</b>
+            <i class="fa-solid fa-chevron-right"></i> <b>{{ key }}</b>
             {% include '@SpipuApiPartner/swagger/parameter.html.twig' with {'parameter': parameter} %}
         </li>
     {% else %}
