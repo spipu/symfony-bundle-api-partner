@@ -1,19 +1,19 @@
-<span class="badge badge-secondary">{{ parameter.name }}</span>
+<span class="badge text-bg-secondary">{{ parameter.name }}</span>
 
 {% if parameter.isRequired %}
-    <span class="badge badge-warning">required</span>
+    <span class="badge text-bg-warning">required</span>
 {% endif %}
 <br />
 {% if parameter.description %}
-    <span class="small font-italic ml-4">{{ parameter.description|raw }}</span>
+    <span class="small font-italic ms-4">{{ parameter.description|raw }}</span>
     <br />
 {% endif %}
 
 {% if parameter.defaultValue is not null %}
-    <small>Default value:</small><span class="badge badge-light">Yes</span>
+    <small>Default value:</small><span class="badge text-bg-light">Yes</span>
     <br />
 {% endif %}
 
-<div class="ml-4">
+<div class="ms-4">
     {% include '@SpipuApiPartner/swagger/parameters.html.twig' with {parameters: parameter.properties} %}
 </div>

@@ -1,15 +1,15 @@
-<span class="badge badge-secondary">{{ parameter.name }}</span>
+<span class="badge text-bg-secondary">{{ parameter.name }}</span>
 
 {% if parameter.isRequired %}
-    <span class="badge badge-warning">required</span>
+    <span class="badge text-bg-warning">required</span>
 {% endif %}
 
 <br />
-<small>Format: <span class="badge badge-light">2000-01-01 00:00:00</span></small>
+<small>Format: <span class="badge text-bg-light">2000-01-01 00:00:00</span></small>
 <br />
 
 {% if parameter.defaultValue is not null %}
-    <small>Default value:</small><span class="badge badge-light">{{ parameter.defaultValue|date('Y-m-d H:i:s') }}</span>
+    <small>Default value:</small><span class="badge text-bg-light">{{ parameter.defaultValue|date('Y-m-d H:i:s') }}</span>
     <br />
 {% endif %}
 

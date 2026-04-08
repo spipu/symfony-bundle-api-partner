@@ -3,7 +3,7 @@
 <div class="row text-break">
     <div class="col-12 col-md-5">
         <div class="card mb-3">
-            <div class="card-header font-weight-bold">{{ 'spipu.api_partner.log.fieldset.information'|trans }}</div>
+            <div class="card-header fw-bold">{{ 'spipu.api_partner.log.fieldset.information'|trans }}</div>
             <table class="table mb-0 table-hover table-sm">
                 <tbody>
                     <tr><th class="w-25">{{ 'spipu.api_partner.log.field.id'|trans }}</th><td>{{ log.id }}</td></tr>
@@ -18,7 +18,7 @@
     </div>
     <div class="col-12 col-md-7">
         <div class="card mb-3">
-            <div class="card-header font-weight-bold">{{ 'spipu.api_partner.log.fieldset.security'|trans }}</div>
+            <div class="card-header fw-bold">{{ 'spipu.api_partner.log.fieldset.security'|trans }}</div>
             <table class="table mb-0 table-hover table-sm">
                 <tbody>
                     <tr><th class="w-25">{{ 'spipu.api_partner.log.field.user_ip'|trans }}</th><td>{{ log.userIp }}</td></tr>
@@ -37,7 +37,7 @@
 <div class="row text-break">
     <div class="col-12">
         <div class="card mb-3">
-            <div class="card-header font-weight-bold">{{ 'spipu.api_partner.log.fieldset.request'|trans }}</div>
+            <div class="card-header fw-bold">{{ 'spipu.api_partner.log.fieldset.request'|trans }}</div>
             <table class="table mb-0 table-hover table-sm">
                 <tbody>
                     <tr><th class="w-25">{{ 'spipu.api_partner.log.field.route_code'|trans }}</th><td>{{ log.routeCode }}</td></tr>
@@ -53,7 +53,7 @@
 <div class="row text-break">
     <div class="col-12">
         <div class="card mb-3">
-            <div class="card-header font-weight-bold">{{ 'spipu.api_partner.log.fieldset.response'|trans }}</div>
+            <div class="card-header fw-bold">{{ 'spipu.api_partner.log.fieldset.response'|trans }}</div>
             <table class="table mb-0 table-hover table-sm">
                 <tbody>
                     <tr>
@@ -68,7 +68,7 @@
                             {% else %}
                                 {% set badgeCss = 'secondary' %}
                             {% endif %}
-                            <div class="badge badge-{{ badgeCss }}">{{ log.responseCode }}</div>
+                            <div class="badge text-bg-{{ badgeCss }}">{{ log.responseCode }}</div>
                         </td>
                     </tr>
                     <tr>
@@ -81,7 +81,7 @@
                             {% else %}
                                 {% set badgeCss = 'secondary' %}
                             {% endif %}
-                            <div class="badge badge-{{ badgeCss }}">{{ log.responseStatus }}</div>
+                            <div class="badge text-bg-{{ badgeCss }}">{{ log.responseStatus }}</div>
                         </td>
                     </tr>
                     <tr>

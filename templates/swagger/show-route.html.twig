@@ -12,12 +12,12 @@
     <div class="col-12">
         <div class="card mb-3">
             <div class="card-header">
-                {% if currentRoute.isDeprecated %}<span class="badge badge-danger">DEPRECATED</span>{% endif %}
+                {% if currentRoute.isDeprecated %}<span class="badge text-bg-danger">DEPRECATED</span>{% endif %}
                 Route <b>{{ currentRoute.code }}</b>
             </div>
             <div class="card-body">
                 <div class="alert alert-secondary">
-                    <span class="badge badge-{{ cssBadge }} p-2 mr-2">{{ currentRoute.httpMethod }}</span>
+                    <span class="badge text-bg-{{ cssBadge }} p-2 me-2">{{ currentRoute.httpMethod }}</span>
                     <code>{{ currentRoute.routePattern }}</code>
                 </div>
                 {% if currentRoute.description %}<hr />{{ currentRoute.description|raw }}{% endif %}

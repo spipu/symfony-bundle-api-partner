@@ -1,19 +1,19 @@
-<span class="badge badge-secondary">{{ parameter.name }}</span>
+<span class="badge text-bg-secondary">{{ parameter.name }}</span>
 
 {% if parameter.isRequired %}
-    <span class="badge badge-warning">required</span>
+    <span class="badge text-bg-warning">required</span>
 {% endif %}
 
 <br />
 <small>Allowed values:</small>
-<span class="badge badge-light">0</span>
-<span class="badge badge-light">1</span>
-<span class="badge badge-light">false</span>
-<span class="badge badge-light">true</span>
+<span class="badge text-bg-light">0</span>
+<span class="badge text-bg-light">1</span>
+<span class="badge text-bg-light">false</span>
+<span class="badge text-bg-light">true</span>
 <br />
 
 {% if parameter.defaultValue is not null %}
-    <small>Default value:</small><span class="badge badge-light">{% if parameter.defaultValue %}true{% else %}false{% endif %}</span>
+    <small>Default value:</small><span class="badge text-bg-light">{% if parameter.defaultValue %}true{% else %}false{% endif %}</span>
     <br />
 {% endif %}
 
