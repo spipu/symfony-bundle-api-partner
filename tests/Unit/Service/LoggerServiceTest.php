@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Spipu\ApiPartnerBundle\Tests\Unit\Service;
 
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Spipu\ApiPartnerBundle\Entity\ApiLogPartner;
 use Spipu\ApiPartnerBundle\Model\Context;
@@ -14,6 +16,8 @@ use Spipu\ApiPartnerBundle\Service\LogBuilderFactory;
 use Spipu\ApiPartnerBundle\Service\LoggerService;
 use Spipu\ConfigurationBundle\Tests\SpipuConfigurationMock;
 
+#[AllowMockObjectsWithoutExpectations]
+#[CoversClass(LoggerService::class)]
 class LoggerServiceTest extends TestCase
 {
     private const SLOW_QUERY = 5.;
