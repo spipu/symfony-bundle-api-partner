@@ -18,12 +18,33 @@ class ResponseTest extends TestCase
         $response = new Response();
 
         $this->assertSame(200, $response->getCode());
+        $this->assertFalse($response->isLogNeeded());
 
         $response->setCode(404);
         $this->assertSame(404, $response->getCode());
+        $this->assertTrue($response->isLogNeeded());
 
         $response->setCode(500);
         $this->assertSame(500, $response->getCode());
+        $this->assertTrue($response->isLogNeeded());
+
+        $response->setCode(200);
+        $this->assertSame(200, $response->getCode());
+        $this->assertFalse($response->isLogNeeded());
+
+        $response->setLogNeeded(true);
+        $this->assertTrue($response->isLogNeeded());
+
+        $response->setCode(404);
+        $this->assertTrue($response->isLogNeeded());
+
+        $response->setLogNeeded(false);
+        $this->assertSame(404, $response->getCode());
+        $this->assertFalse($response->isLogNeeded());
+
+        // A call to setCode() recomputes the flag and overwrites any previous setLogNeeded().
+        $response->setCode(500);
+        $this->assertTrue($response->isLogNeeded());
 
         $this->assertNull($response->getLogError());
         $response->setLogError('fake error');
@@ -33,7 +54,6 @@ class ResponseTest extends TestCase
 
         $response->setLogId(42);
         $this->assertSame(42, $response->getLogId());
-
     }
 
     public function testText(): void

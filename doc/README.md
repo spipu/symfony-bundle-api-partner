@@ -1,6 +1,6 @@
 # Spipu API Partner Bundle
 
-The **ApiPartnerBundle** provides a REST API framework for secure partner integrations. Partners authenticate using an API key, and every request is automatically logged. API routes are PHP service classes. Authorization logic (which routes a partner can call) is delegated to the application.
+The **ApiPartnerBundle** provides a REST API framework for secure partner integrations. Partners authenticate using an API key, and requests are logged according to a configurable policy. API routes are PHP service classes. Authorization logic (which routes a partner can call) is delegated to the application.
 
 ## Documentation
 
@@ -16,7 +16,7 @@ The **ApiPartnerBundle** provides a REST API framework for secure partner integr
 - **Request security** — the application controls authorization via `RequestSecurityServiceInterface`
 - **Typed parameters** — path, query, and body parameters are declared and validated per route
 - **Response format validation** — optional validation of the response structure
-- **Automatic API logging** — every request is logged to `ApiLogPartner` with partner, IP, method, route, status, response code, memory, and duration
+- **Configurable API logging** — requests are logged to `ApiLogPartner` with partner, IP, method, route, status, response code, memory, and duration; errors, slow requests, and format failures are always kept, and a route can force or skip its own log
 - **Admin log viewer** — filterable/sortable grid of API logs at `/admin/api-partner/log/`
 - **Swagger/OpenAPI** — documentation generation via `AbstractApiDocumentationService`
 

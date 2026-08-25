@@ -22,18 +22,20 @@ class Response
     private string $contentType;
     private string $content;
     private bool $binaryContent = false;
+    private bool $logNeeded;
     private ?int $logId = null;
     private ?string $logError = null;
 
     public function __construct()
     {
-        $this->code = SymfonyResponse::HTTP_OK;
+        $this->setCode(SymfonyResponse::HTTP_OK);
         $this->headers = [];
     }
 
     public function setCode(int $code): self
     {
         $this->code = $code;
+        $this->setLogNeeded($code !== SymfonyResponse::HTTP_OK);
         return $this;
     }
 
@@ -98,6 +100,17 @@ class Response
     public function getContent(): string
     {
         return $this->content;
+    }
+
+    public function isLogNeeded(): bool
+    {
+        return $this->logNeeded;
+    }
+
+    public function setLogNeeded(bool $logNeeded): self
+    {
+        $this->logNeeded = $logNeeded;
+        return $this;
     }
 
     public function getLogId(): ?int

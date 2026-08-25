@@ -124,6 +124,18 @@ class GetProductRoute implements RouteInterface, ActionInterface
 }
 ```
 
+## Controlling the API Log
+
+The response HTTP code decides whether the request lands in `api_log_partner`: a `200` is skipped, anything else is logged. A route can override that decision with `setLogNeeded()`, called **after** `setCode()`:
+
+```php
+$response = new Response();
+$response->setCode(404)->setContentText('Product not found');
+$response->setLogNeeded(false); // expected miss, not worth logging
+```
+
+The override only concerns the response itself — debug logging, slow requests, and response format errors still force a log. See [API Logs](./logs.md) for the full rules.
+
 ## Available Parameter Types
 
 | Class | Description |
