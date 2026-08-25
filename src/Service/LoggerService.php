@@ -68,7 +68,7 @@ class LoggerService implements LoggerServiceInterface
         ?string $responseFormatError
     ): bool {
         if (
-            $response->getCode() === 200
+            !$response->isLogNeeded()
             && !$this->isLogDebugEnabled()
             && empty($responseFormatError)
             && ($duration < $this->getLogSlowQuery())
