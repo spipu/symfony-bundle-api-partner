@@ -25,6 +25,7 @@ use Spipu\ConfigurationBundle\Service\ConfigurationManager;
 use Spipu\CoreBundle\Service\EnvironmentInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
+use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 /**
  * @SuppressWarnings(PMD.CouplingBetweenObjects)
@@ -70,7 +71,11 @@ class ApiService
         try {
             $response = $this->prepareAndExecute($routeUrl, $symfonyRequest);
             $responseFormat = $this->lastContext->getRoute()->getResponseFormat();
-            if ($responseFormat && $this->mustValidateResponseFormat()) {
+            if (
+                $responseFormat
+                && $response->getCode() === SymfonyResponse::HTTP_OK
+                && $this->mustValidateResponseFormat()
+            ) {
                 $this->contextService->validateResponseFormat($responseFormat, $response);
             }
         } catch (ResponseException $e) {
