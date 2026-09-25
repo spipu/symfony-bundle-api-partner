@@ -15,7 +15,7 @@ use Spipu\ApiPartnerBundle\Service\LoggerServiceInterface;
 use Spipu\ApiPartnerBundle\Service\RequestSecurityServiceInterface;
 use Spipu\ApiPartnerBundle\Service\RequestService;
 use Spipu\ApiPartnerBundle\Service\RouteService;
-use Spipu\ConfigurationBundle\Tests\SpipuConfigurationMock;
+use Spipu\ConfigurationBundle\Service\ConfigurationManager;
 use Spipu\CoreBundle\Service\EnvironmentInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
@@ -61,21 +61,24 @@ class ApiServiceTest extends TestCase
 
     private function executeAndGetResponseFormatError(Response $actionResponse): ?string
     {
-        $route = $this->createMock(RouteInterface::class);
+        $route = $this->createStub(RouteInterface::class);
         $route->method('getActionServiceName')->willReturn('mock_action');
         $route->method('getResponseFormat')->willReturn(new ResponseFormat('json'));
 
-        $routeService = $this->createMock(RouteService::class);
+        $routeService = $this->createStub(RouteService::class);
         $routeService->method('identifyRoute')->willReturn($route);
 
-        $action = $this->createMock(ActionInterface::class);
+        $action = $this->createStub(ActionInterface::class);
         $action->method('execute')->willReturn($actionResponse);
 
-        $container = $this->createMock(ContainerInterface::class);
-        $container->method('get')->with('mock_action')->willReturn($action);
+        $container = $this->createStub(ContainerInterface::class);
+        $container->method('get')->willReturn($action);
 
-        $requestSecurityService = $this->createMock(RequestSecurityServiceInterface::class);
+        $requestSecurityService = $this->createStub(RequestSecurityServiceInterface::class);
         $requestSecurityService->method('isRouteAllowed')->willReturn(true);
+
+        $configurationManager = $this->createStub(ConfigurationManager::class);
+        $configurationManager->method('get')->willReturn(true);
 
         $responseFormatError = null;
         $loggerService = $this->createMock(LoggerServiceInterface::class);
@@ -89,18 +92,14 @@ class ApiServiceTest extends TestCase
                 }
             );
 
-        $contextService = $this->getMockBuilder(ContextService::class)
-            ->onlyMethods(['buildContext'])
-            ->getMock();
-
         $service = new ApiService(
-            $this->createMock(RequestService::class),
-            $contextService,
+            $this->createStub(RequestService::class),
+            new ContextService(),
             $routeService,
             $loggerService,
             $container,
-            SpipuConfigurationMock::getManager($this, null, ['api.partner.validate_response_format' => true]),
-            $this->createMock(EnvironmentInterface::class),
+            $configurationManager,
+            $this->createStub(EnvironmentInterface::class),
             $requestSecurityService
         );
 
