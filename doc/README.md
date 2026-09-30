@@ -27,7 +27,7 @@ The **ApiPartnerBundle** provides a REST API framework for secure partner integr
 - `spipu/core-bundle`
 - `spipu/ui-bundle`
 - `spipu/configuration-bundle`
-- Doctrine ORM
+- Doctrine ORM 3.7+ and DBAL 4.5+
 
 ## Architecture
 
