@@ -22,12 +22,12 @@ The **ApiPartnerBundle** provides a REST API framework for secure partner integr
 
 ## Requirements
 
-- PHP 8.1+
+- PHP 8.3+
 - Symfony 6.4+
 - `spipu/core-bundle`
 - `spipu/ui-bundle`
 - `spipu/configuration-bundle`
-- Doctrine ORM
+- Doctrine ORM 3.7+ and DBAL 4.5+
 
 ## Architecture
 
