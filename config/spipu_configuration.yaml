@@ -20,3 +20,14 @@ spipu_configuration:
         type:     "boolean"
         required: true
         default:  false
+
+    api.partner.cleanup.logs:
+        type:     "boolean"
+        required: true
+        default:  true
+
+    api.partner.cleanup.logs_after:
+        type:     "integer"
+        required: true
+        default:  180
+        unit:     "day(s)"

@@ -75,6 +75,35 @@ An override only removes the response from the decision. The three other conditi
 | `memoryUsage` | PHP memory used during the request (bytes) |
 | `duration` | Request execution time (seconds) |
 
+## Log Cleanup
+
+Old logs are deleted by the `Spipu\ApiPartnerBundle\Step\CleanLogs` process step. It removes every log whose `date` is older than the configured delay, and returns the number of deleted logs.
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `api.partner.cleanup.logs` | boolean | `true` | Enable the cleanup. When disabled, the step does nothing |
+| `api.partner.cleanup.logs_after` | integer (days) | `180` | Logs older than this delay are deleted (minimum: 1 day) |
+
+The bundle does not declare the process itself. Declare it in the application, for example in `config/process/api_partner_clean_logs.yaml`:
+
+```yaml
+spipu_process:
+    api_partner_clean_logs:
+        name: "API Partner - Clean Logs"
+        options:
+            can_be_put_in_queue: true
+            can_be_rerun_automatically: false
+        steps:
+            clean_logs:
+                class: Spipu\ApiPartnerBundle\Step\CleanLogs
+```
+
+Then schedule it in the crontab:
+
+```
+30 2 * * * php bin/console spipu:process:run api_partner_clean_logs
+```
+
 ## Admin Log Viewer
 
 The log grid is available at `/admin/api-partner/log/`. It allows:

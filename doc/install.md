@@ -9,6 +9,7 @@
 - `spipu/core-bundle`
 - `spipu/ui-bundle`
 - `spipu/configuration-bundle`
+- `spipu/process-bundle`
 
 ## Installation
 
@@ -28,6 +29,7 @@ return [
     Spipu\CoreBundle\SpipuCoreBundle::class => ['all' => true],
     Spipu\UiBundle\SpipuUiBundle::class => ['all' => true],
     Spipu\ConfigurationBundle\SpipuConfigurationBundle::class => ['all' => true],
+    Spipu\ProcessBundle\SpipuProcessBundle::class => ['all' => true],
     Spipu\ApiPartnerBundle\SpipuApiPartnerBundle::class => ['all' => true],
 ];
 ```

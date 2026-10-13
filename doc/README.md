@@ -17,6 +17,7 @@ The **ApiPartnerBundle** provides a REST API framework for secure partner integr
 - **Typed parameters** — path, query, and body parameters are declared and validated per route
 - **Response format validation** — optional validation of the response structure
 - **Configurable API logging** — requests are logged to `ApiLogPartner` with partner, IP, method, route, status, response code, memory, and duration; errors, slow requests, and format failures are always kept, and a route can force or skip its own log
+- **Automatic log cleanup** — the `CleanLogs` process step deletes the logs older than a configurable delay (180 days by default)
 - **Admin log viewer** — filterable/sortable grid of API logs at `/admin/api-partner/log/`
 - **Swagger/OpenAPI** — documentation generation via `AbstractApiDocumentationService`
 
@@ -27,6 +28,7 @@ The **ApiPartnerBundle** provides a REST API framework for secure partner integr
 - `spipu/core-bundle`
 - `spipu/ui-bundle`
 - `spipu/configuration-bundle`
+- `spipu/process-bundle`
 - Doctrine ORM 3.7+ and DBAL 4.5+
 
 ## Architecture

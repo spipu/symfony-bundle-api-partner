@@ -15,7 +15,8 @@
         "doctrine/orm": "^3.7",
         "symfony/framework-bundle": "^7.4",
         "spipu/core-bundle": "^5.0",
-        "spipu/ui-bundle": "^5.0"
+        "spipu/ui-bundle": "^5.0",
+        "spipu/process-bundle": "^5.0"
     },
     "autoload": {
         "psr-4": {
