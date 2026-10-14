@@ -34,7 +34,18 @@ return [
 ];
 ```
 
-### 2. Create application controllers
+### 2. Import the process definitions
+
+In `config/packages/spipu_process.yaml`:
+
+```yaml
+imports:
+    - { resource: "@SpipuApiPartnerBundle/config/process/*.yaml" }
+```
+
+This declares the `api_partner_clean_logs` process (see [Log Cleanup](./logs.md#log-cleanup)).
+
+### 3. Create application controllers
 
 The bundle does not provide its own routes. The application must create:
 
@@ -81,7 +92,7 @@ class ApiLogController extends AbstractController
 }
 ```
 
-### 3. Run database migrations
+### 4. Run database migrations
 
 The bundle provides the `ApiLogPartner` entity to store request logs:
 
@@ -90,7 +101,7 @@ php bin/console doctrine:migrations:diff
 php bin/console doctrine:migrations:migrate
 ```
 
-### 4. Implement PartnerRepositoryInterface
+### 5. Implement PartnerRepositoryInterface
 
 Create a service that looks up partners by API key. The bundle does **not** provide a partner entity or CRUD UI — this is the responsibility of the application.
 
@@ -125,7 +136,7 @@ Register it as a service (autowired by interface — no tag required):
 App\Api\MyPartnerRepository: ~
 ```
 
-### 5. Implement RequestSecurityServiceInterface
+### 6. Implement RequestSecurityServiceInterface
 
 This service validates the incoming request (signature, timestamp, etc.) and decides which routes a given partner is allowed to call:
 
@@ -161,7 +172,7 @@ Register it as a service (autowired by interface — no tag required):
 App\Api\MyRequestSecurity: ~
 ```
 
-### 6. Register your API route classes
+### 7. Register your API route classes
 
 Routes are collected via the `spipu.api-partner.route` tag:
 

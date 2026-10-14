@@ -84,21 +84,9 @@ Old logs are deleted by the `Spipu\ApiPartnerBundle\Step\CleanLogs` process step
 | `api.partner.cleanup.logs` | boolean | `true` | Enable the cleanup. When disabled, the step does nothing |
 | `api.partner.cleanup.logs_after` | integer (days) | `180` | Logs older than this delay are deleted (minimum: 1 day) |
 
-The bundle does not declare the process itself. Declare it in the application, for example in `config/process/api_partner_clean_logs.yaml`:
+The bundle provides the `api_partner_clean_logs` process in `config/process/api_partner_clean_logs.yaml`. Import it in the application (see [Installation](./install.md)).
 
-```yaml
-spipu_process:
-    api_partner_clean_logs:
-        name: "API Partner - Clean Logs"
-        options:
-            can_be_put_in_queue: true
-            can_be_rerun_automatically: false
-        steps:
-            clean_logs:
-                class: Spipu\ApiPartnerBundle\Step\CleanLogs
-```
-
-Then schedule it in the crontab:
+Schedule it in the crontab:
 
 ```
 30 2 * * * php bin/console spipu:process:run api_partner_clean_logs
