@@ -24,7 +24,7 @@ spipu_configuration:
     api.partner.cleanup.logs:
         type:     "boolean"
         required: true
-        default:  true
+        default:  false
 
     api.partner.cleanup.logs_after:
         type:     "integer"

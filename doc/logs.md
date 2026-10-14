@@ -81,7 +81,7 @@ Old logs are deleted by the `Spipu\ApiPartnerBundle\Step\CleanLogs` process step
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| `api.partner.cleanup.logs` | boolean | `true` | Enable the cleanup. When disabled, the step does nothing |
+| `api.partner.cleanup.logs` | boolean | `false` | Enable the cleanup. When disabled, the step does nothing |
 | `api.partner.cleanup.logs_after` | integer (days) | `180` | Logs older than this delay are deleted (minimum: 1 day) |
 
 The bundle provides the `api_partner_clean_logs` process in `config/process/api_partner_clean_logs.yaml`. Import it in the application (see [Installation](./install.md)).
