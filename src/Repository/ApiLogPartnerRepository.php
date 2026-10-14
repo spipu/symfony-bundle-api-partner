@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Spipu\ApiPartnerBundle\Repository;
 
+use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Spipu\ApiPartnerBundle\Entity\ApiLogPartner;
@@ -32,5 +33,17 @@ class ApiLogPartnerRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, ApiLogPartner::class);
+    }
+
+    public function deleteOlderThan(DateTimeInterface $limitDate): int
+    {
+        $query = $this
+            ->createQueryBuilder('l')
+            ->delete()
+            ->andWhere('l.date < (:date)')
+            ->setParameter('date', $limitDate)
+            ->getQuery();
+
+        return $query->execute();
     }
 }

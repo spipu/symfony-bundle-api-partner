@@ -23,6 +23,7 @@ use Spipu\UiBundle\Entity\EntityInterface;
  */
 #[ORM\Entity(repositoryClass: 'Spipu\ApiPartnerBundle\Repository\ApiLogPartnerRepository')]
 #[ORM\Table(name: 'api_log_partner')]
+#[ORM\Index(name: 'API_LOG_PARTNER_DATE_INDEX', columns: ['date'])]
 #[ORM\Index(name: 'API_LOG_PARTNER_METHOD_INDEX', columns: ['method'])]
 #[ORM\Index(name: 'API_LOG_PARTNER_ROUTE_INDEX', columns: ['route'])]
 #[ORM\Index(name: 'API_LOG_PARTNER_RESPONSE_STATUS_INDEX', columns: ['response_status'])]

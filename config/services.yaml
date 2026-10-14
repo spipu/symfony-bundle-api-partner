@@ -20,3 +20,9 @@ services:
         autowire: true
         arguments:
             $container: '@service_container'
+
+    Spipu\ApiPartnerBundle\Step\:
+        resource: '../src/Step/*'
+        tags: ['spipu.process.step']
+        public: true
+        autowire: true
