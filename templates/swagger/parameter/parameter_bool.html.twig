@@ -4,6 +4,10 @@
     <span class="badge text-bg-warning">required</span>
 {% endif %}
 
+{% if parameter.isSecret %}
+    <span class="badge badge-danger">secret</span>
+{% endif %}
+
 <br />
 <small>Allowed values:</small>
 <span class="badge text-bg-light">0</span>

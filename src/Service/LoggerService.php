@@ -49,11 +49,12 @@ class LoggerService implements LoggerServiceInterface
 
         $builder = $this->logBuilderFactory->create();
 
-        $builder->addRequest($request);
-        if ($context->getRoute()) {
-            $builder->addRouteCode($context->getRoute()->getCode());
+        $route = $context->getRoute();
+        $builder->addRequest($request, $route);
+        if ($route) {
+            $builder->addRouteCode($route->getCode());
         }
-        $builder->addResponse($response);
+        $builder->addResponse($response, $route);
         $builder->addDuration($duration);
         if ($responseFormatError) {
             $builder->addResponseFormatError($responseFormatError);

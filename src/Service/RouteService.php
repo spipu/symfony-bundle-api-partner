@@ -24,9 +24,12 @@ class RouteService
      * @var RouteInterface[]
      */
     private array $routes = [];
+    private SecretParameterService $secretParameterService;
 
-    public function __construct(iterable $routes)
+    public function __construct(iterable $routes, SecretParameterService $secretParameterService)
     {
+        $this->secretParameterService = $secretParameterService;
+
         foreach ($routes as $route) {
             $this->addRoute($route);
         }
@@ -34,7 +37,26 @@ class RouteService
 
     private function addRoute(RouteInterface $route): void
     {
+        $this->checkNoSecret($route, 'path', $route->getPathParameters());
+        $this->checkNoSecret($route, 'query', $route->getQueryParameters());
+
         $this->routes[$route->getCode()] = $route;
+    }
+
+    /**
+     * Secret values must be sent in the body: path and query are written in the web server access logs.
+     */
+    private function checkNoSecret(RouteInterface $route, string $type, array $parameters): void
+    {
+        if ($this->secretParameterService->hasSecret($parameters)) {
+            throw new RouteException(
+                sprintf(
+                    'Route [%s] - secret parameters are not allowed in %s parameters, use body parameters',
+                    $route->getCode(),
+                    $type
+                )
+            );
+        }
     }
 
     public function get(string $routeCode): RouteInterface

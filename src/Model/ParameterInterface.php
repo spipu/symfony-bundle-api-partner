@@ -23,9 +23,13 @@ interface ParameterInterface
 
     public function getDescription(): ?string;
 
-    public function setRequired(bool $required): ParameterInterface;
+    public function setRequired(bool $required): self;
 
     public function isRequired(): bool;
+
+    public function setSecret(bool $secret): self;
+
+    public function isSecret(): bool;
 
     public function validateValue(string $key, mixed $value): mixed;
 }

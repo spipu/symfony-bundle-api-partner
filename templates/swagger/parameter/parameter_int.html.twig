@@ -4,6 +4,10 @@
     <span class="badge text-bg-warning">required</span>
 {% endif %}
 
+{% if parameter.isSecret %}
+    <span class="badge badge-danger">secret</span>
+{% endif %}
+
 {% if parameter.minValue is not null %}
     <span class="badge text-bg-light">
         &gt;{% if not parameter.exclusiveMin %}={% endif %} {{ parameter.minValue }}

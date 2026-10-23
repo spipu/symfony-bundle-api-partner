@@ -15,6 +15,7 @@ namespace Spipu\ApiPartnerBundle\Service;
 
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use Spipu\ApiPartnerBundle\Api\RouteInterface;
 use Spipu\ApiPartnerBundle\Entity\ApiLogPartner;
 use Spipu\ApiPartnerBundle\Model\Request;
 use Spipu\ApiPartnerBundle\Model\Response;
@@ -25,14 +26,17 @@ class LogBuilder
 
     private EntityManagerInterface $entityManager;
     private ApiResponseStatus $apiResponseStatus;
+    private SecretParameterService $secretParameterService;
     private ApiLogPartner $log;
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        ApiResponseStatus $apiResponseStatus
+        ApiResponseStatus $apiResponseStatus,
+        SecretParameterService $secretParameterService
     ) {
         $this->entityManager = $entityManager;
         $this->apiResponseStatus = $apiResponseStatus;
+        $this->secretParameterService = $secretParameterService;
     }
 
     public function init(): void
@@ -50,8 +54,13 @@ class LogBuilder
         return $this->log;
     }
 
-    public function addRequest(Request $request): void
+    public function addRequest(Request $request, ?RouteInterface $route = null): void
     {
+        $bodyString = $request->getBodyString();
+        if ($route !== null) {
+            $bodyString = $this->secretParameterService->maskJson($bodyString, $route->getBodyParameters());
+        }
+
         $this->log
             ->setPartnerId($request->getPartner() ? $request->getPartner()->getId() : null)
             ->setApiKey($request->getApiKey())
@@ -62,7 +71,7 @@ class LogBuilder
             ->setMethod($request->getMethod())
             ->setRoute($request->getRoute())
             ->setQueryString($this->limitStringLength($request->getQueryString()))
-            ->setBodyString($this->limitStringLength($request->getBodyString()))
+            ->setBodyString($this->limitStringLength($bodyString))
         ;
     }
 
@@ -71,11 +80,16 @@ class LogBuilder
         $this->log->setRouteCode($routeCode);
     }
 
-    public function addResponse(Response $response): void
+    public function addResponse(Response $response, ?RouteInterface $route = null): void
     {
         $content = $response->getContent();
         if ($response->isBinaryContent()) {
             $content = '[binary content file]';
+        }
+
+        $responseFormat = $route?->getResponseFormat();
+        if ($responseFormat !== null && $response->getContentType() === 'application/json') {
+            $content = $this->secretParameterService->maskJson($content, $responseFormat->getJsonContent());
         }
 
         $this->log
