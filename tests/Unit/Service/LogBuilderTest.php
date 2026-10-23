@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Spipu\ApiPartnerBundle\Tests\Unit\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Spipu\ApiPartnerBundle\Api\RouteInterface;
 use Spipu\ApiPartnerBundle\Entity\ApiLogPartner;
@@ -13,9 +15,12 @@ use Spipu\ApiPartnerBundle\Model\Request;
 use Spipu\ApiPartnerBundle\Model\Response;
 use Spipu\ApiPartnerBundle\Model\ResponseFormat;
 use Spipu\ApiPartnerBundle\Service\ApiResponseStatus;
+use Spipu\ApiPartnerBundle\Service\LogBuilder;
 use Spipu\ApiPartnerBundle\Service\LogBuilderFactory;
 use Spipu\ApiPartnerBundle\Service\SecretParameterService;
 
+#[AllowMockObjectsWithoutExpectations]
+#[CoversClass(LogBuilder::class)]
 class LogBuilderTest extends TestCase
 {
     private const BODY = '{"name":"foo","password":"my-password"}';

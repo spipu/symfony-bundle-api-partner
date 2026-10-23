@@ -29,7 +29,7 @@ class UserInterfaceTest extends WebTestCase
 
         $crawler = $client->clickLink('Test-Test');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertSame(['secret'], $crawler->filter('span.badge-danger')->each(fn ($node) => $node->text()));
+        $this->assertSame(['secret'], $crawler->filter('span.text-bg-danger')->each(fn ($node) => $node->text()));
 
         $client->clickLink('API Partner');
         $crawler = $client->clickLink('API Partner - Logs');

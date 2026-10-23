@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Spipu\ApiPartnerBundle\Tests\Unit\Service;
 
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Spipu\ApiPartnerBundle\Model\Parameter\ArrayParameter;
 use Spipu\ApiPartnerBundle\Model\Parameter\IntegerParameter;
@@ -11,6 +13,8 @@ use Spipu\ApiPartnerBundle\Model\Parameter\ObjectParameter;
 use Spipu\ApiPartnerBundle\Model\Parameter\StringParameter;
 use Spipu\ApiPartnerBundle\Service\SecretParameterService;
 
+#[AllowMockObjectsWithoutExpectations]
+#[CoversClass(SecretParameterService::class)]
 class SecretParameterServiceTest extends TestCase
 {
     public function testHasSecret(): void
