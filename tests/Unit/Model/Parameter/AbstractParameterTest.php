@@ -31,6 +31,11 @@ abstract class AbstractParameterTest extends TestCase
         $this->assertSame($code, $parameter->getCode());
         $this->assertSame($name, $parameter->getName());
 
+        $this->assertFalse($parameter->isSecret());
+        $this->assertSame($parameter, $parameter->setSecret(true));
+        $this->assertTrue($parameter->isSecret());
+        $parameter->setSecret(false);
+
         foreach ($badValues as $key => $badValue) {
             $currentException = null;
             try {

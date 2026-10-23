@@ -3,6 +3,10 @@
 {% if parameter.isRequired %}
     <span class="badge badge-warning">required</span>
 {% endif %}
+
+{% if parameter.isSecret %}
+    <span class="badge badge-danger">secret</span>
+{% endif %}
 <br />
 {% if parameter.description %}
     <span class="small font-italic ml-4">{{ parameter.description|raw }}</span>

@@ -51,6 +51,15 @@ Call `setLogNeeded()` **after** `setCode()`: `setCode()` recomputes the flag fro
 
 An override only removes the response from the decision. The three other conditions above still apply — with `log_debug` enabled, or on a slow request, a response marked `setLogNeeded(false)` is logged anyway.
 
+## Secret Values
+
+Before the log entry is stored, the values of the parameters marked with `setSecret(true)` are replaced by `###SECRET###`, at any depth (objects and arrays):
+
+- in the **request body**, using the route body parameters;
+- in the **response content**, using the route response format, for JSON responses only.
+
+The masking is done when the log is created, so secret values never reach the database. When the route declares a secret parameter and the content is not a valid JSON, the whole content is replaced by `###SECRET###`. A masked content is re-encoded, its formatting may differ from the original one. Requests whose route is not identified are not masked: no parameter definition is available.
+
 ## Log Entry Fields
 
 | Field | Description |

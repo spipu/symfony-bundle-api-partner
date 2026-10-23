@@ -154,6 +154,22 @@ The override only concerns the response itself — debug logging, slow requests,
 | `Page\MaxParameter` | Pagination: max items per page |
 | `Page\OffsetParameter` | Pagination: offset |
 
+## Secret Parameters
+
+A parameter carrying a sensitive value (password, token, ...) must be marked as secret:
+
+```php
+public function getBodyParameters(): array
+{
+    return [
+        'password' => (new StringParameter())->setRequired(true)->setSecret(true),
+    ];
+}
+```
+
+- Secret parameters are only allowed in **body parameters** (at any depth). Path and query values are written in the web server access logs, so a route declaring a secret path or query parameter is rejected with a `RouteException` when the routes are loaded.
+- Secret values of the request body and of the JSON response (`getResponseFormat()`) are replaced by `###SECRET###` when the API log is created: they are never stored. See [API Logs](./logs.md).
+
 ## Registering Routes
 
 Tag the service with `spipu.api-partner.route`:

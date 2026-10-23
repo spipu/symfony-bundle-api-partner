@@ -4,6 +4,10 @@
     <span class="badge badge-warning">required</span>
 {% endif %}
 
+{% if parameter.isSecret %}
+    <span class="badge badge-danger">secret</span>
+{% endif %}
+
 <br />
 <small>Format: <span class="badge badge-light">2000-01-01 00:00:00</span></small>
 <br />
