@@ -170,6 +170,27 @@ public function getBodyParameters(): array
 - Secret parameters are only allowed in **body parameters** (at any depth). Path and query values are written in the web server access logs, so a route declaring a secret path or query parameter is rejected with a `RouteException` when the routes are loaded.
 - Secret values of the request body and of the JSON response (`getResponseFormat()`) are replaced by `###SECRET###` when the API log is created: they are never stored. See [API Logs](./logs.md).
 
+## Privacy Parameters
+
+A parameter carrying personal data (name, email, address, ...) must be marked as privacy:
+
+```php
+public function getQueryParameters(): array
+{
+    return [
+        'email' => (new StringParameter())->setRequired(true)->setPrivacy(true),
+    ];
+}
+```
+
+- Privacy parameters are allowed in **path**, **query** and **body** parameters, and in the response format, at any depth (objects and arrays).
+- Privacy values are replaced by `###PRIVACY###` when the API log is created: they are never stored. See [API Logs](./logs.md).
+- A route declaring a privacy path parameter is logged with `route` = `###PRIVACY###`; the route is still identified by `routeCode`.
+- Path and query values still reach the web server access logs, which are outside the bundle: configure them accordingly.
+- A parameter marked both secret and privacy is masked as `###SECRET###`.
+
+The masking is done by `Spipu\ApiPartnerBundle\Service\SensitiveParameterService`. `SecretParameterService` is deprecated: it extends `SensitiveParameterService`, use the latter instead.
+
 ## Registering Routes
 
 Tag the service with `spipu.api-partner.route`:

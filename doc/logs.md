@@ -51,14 +51,22 @@ Call `setLogNeeded()` **after** `setCode()`: `setCode()` recomputes the flag fro
 
 An override only removes the response from the decision. The three other conditions above still apply — with `log_debug` enabled, or on a slow request, a response marked `setLogNeeded(false)` is logged anyway.
 
-## Secret Values
+## Secret and Privacy Values
 
-Before the log entry is stored, the values of the parameters marked with `setSecret(true)` are replaced by `###SECRET###`, at any depth (objects and arrays):
+Before the log entry is stored, the values of the parameters marked with `setSecret(true)` are replaced by `###SECRET###`, and the values of the parameters marked with `setPrivacy(true)` are replaced by `###PRIVACY###`, at any depth (objects and arrays). A parameter marked with both is replaced by `###SECRET###`. The masking applies:
 
-- in the **request body**, using the route body parameters;
-- in the **response content**, using the route response format, for JSON responses only.
+- to the **request body** (`bodyString`), using the route body parameters;
+- to the **response content** (`responseContent`), using the route response format, for JSON responses only;
+- to the **query string** (`queryString`), using the route query parameters: when the route declares a sensitive query parameter, the query string is rebuilt from the parsed values (RFC 3986 encoding, brackets percent-encoded), so its formatting may differ from the original one;
+- to the **route** (`route`): when the route declares a privacy path parameter, the whole value is replaced by `###PRIVACY###`, and the route is identified by `routeCode`.
 
-The masking is done when the log is created, so secret values never reach the database. When the route declares a secret parameter and the content is not a valid JSON, the whole content is replaced by `###SECRET###`. A masked content is re-encoded, its formatting may differ from the original one. Requests whose route is not identified are not masked: no parameter definition is available.
+The masking is done when the log is created, so these values never reach the database. When the route declares a sensitive parameter and the body or the JSON response is not a valid JSON, the whole content is replaced by `###SECRET###` (or `###PRIVACY###` when no secret is declared). A value which does not have the expected shape (a scalar for an object or an array parameter declaring sensitive children) is replaced whole. A masked content is re-encoded, its formatting may differ from the original one.
+
+Not masked:
+
+- requests whose route is not identified (unknown route, authentication failure): no parameter definition is available;
+- non-JSON responses (text, CSV, PDF, error texts);
+- messages of the exceptions thrown by the application actions: they are application-owned and must not contain sensitive values. The trace of an unexpected exception is stored without the call arguments.
 
 ## Log Entry Fields
 
@@ -73,14 +81,14 @@ The masking is done when the log is created, so secret values never reach the da
 | `requestTime` | Unix timestamp from the request (for replay detection) |
 | `requestHash` | Request signature hash |
 | `method` | HTTP method (`GET`, `POST`, etc.) |
-| `route` | Raw URL path |
+| `route` | Raw URL path, `###PRIVACY###` when the route declares a privacy path parameter |
 | `routeCode` | Matched route code (nullable if no route matched) |
-| `queryString` | Query string parameters (up to 1 MB) |
-| `bodyString` | Request body (up to 1 MB) |
+| `queryString` | Query string parameters (up to 1 MB), secret and privacy values masked |
+| `bodyString` | Request body (up to 1 MB), secret and privacy values masked |
 | `responseStatus` | `success` or `error` |
 | `responseCode` | HTTP response status code |
 | `responseType` | Response Content-Type |
-| `responseContent` | Response body (up to 1 MB) |
+| `responseContent` | Response body (up to 1 MB), secret and privacy values masked for JSON responses |
 | `memoryUsage` | PHP memory used during the request (bytes) |
 | `duration` | Request execution time (seconds) |
 

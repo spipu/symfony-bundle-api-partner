@@ -20,6 +20,7 @@ abstract class AbstractParameter implements ParameterInterface
     private ?string $description = null;
     protected bool $required = false;
     protected bool $secret = false;
+    protected bool $privacy = false;
 
     public function setDescription(string $description): self
     {
@@ -52,6 +53,17 @@ abstract class AbstractParameter implements ParameterInterface
     public function isSecret(): bool
     {
         return $this->secret;
+    }
+
+    public function setPrivacy(bool $privacy): self
+    {
+        $this->privacy = $privacy;
+        return $this;
+    }
+
+    public function isPrivacy(): bool
+    {
+        return $this->privacy;
     }
 
     public function validateValue(string $key, mixed $value): mixed

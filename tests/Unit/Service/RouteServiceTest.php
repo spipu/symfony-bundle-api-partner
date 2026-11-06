@@ -12,7 +12,7 @@ use Spipu\ApiPartnerBundle\Exception\RouteException;
 use Spipu\ApiPartnerBundle\Model\Parameter\ObjectParameter;
 use Spipu\ApiPartnerBundle\Model\Parameter\StringParameter;
 use Spipu\ApiPartnerBundle\Service\RouteService;
-use Spipu\ApiPartnerBundle\Service\SecretParameterService;
+use Spipu\ApiPartnerBundle\Service\SensitiveParameterService;
 
 #[AllowMockObjectsWithoutExpectations]
 #[CoversClass(RouteService::class)]
@@ -22,7 +22,24 @@ class RouteServiceTest extends TestCase
     {
         $route = $this->getRoute([], [], ['password' => (new StringParameter())->setSecret(true)]);
 
-        $service = new RouteService([$route], new SecretParameterService());
+        $service = new RouteService([$route], new SensitiveParameterService());
+
+        $this->assertSame(['test_route' => $route], $service->getAvailableRoutes());
+        $this->assertSame($route, $service->get('test_route'));
+    }
+
+    public function testPrivacyInPathAndQueryIsAllowed(): void
+    {
+        $route = $this->getRoute(
+            ['email' => (new StringParameter())->setPrivacy(true)],
+            [
+                'user' => (new ObjectParameter())
+                    ->addProperty('email', (new StringParameter())->setPrivacy(true))
+            ],
+            ['full_name' => (new StringParameter())->setPrivacy(true)]
+        );
+
+        $service = new RouteService([$route], new SensitiveParameterService());
 
         $this->assertSame(['test_route' => $route], $service->getAvailableRoutes());
         $this->assertSame($route, $service->get('test_route'));
@@ -37,7 +54,7 @@ class RouteServiceTest extends TestCase
             'Route [test_route] - secret parameters are not allowed in path parameters, use body parameters'
         );
 
-        new RouteService([$route], new SecretParameterService());
+        new RouteService([$route], new SensitiveParameterService());
     }
 
     public function testSecretInQueryIsForbidden(): void
@@ -56,7 +73,7 @@ class RouteServiceTest extends TestCase
             'Route [test_route] - secret parameters are not allowed in query parameters, use body parameters'
         );
 
-        new RouteService([$route], new SecretParameterService());
+        new RouteService([$route], new SensitiveParameterService());
     }
 
     private function getRoute(array $pathParameters, array $queryParameters, array $bodyParameters): RouteInterface

@@ -19,16 +19,16 @@ class LogBuilderFactory
 {
     private EntityManagerInterface $entityManager;
     private ApiResponseStatus $apiResponseStatus;
-    private SecretParameterService $secretParameterService;
+    private SensitiveParameterService $sensitiveParameterService;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         ApiResponseStatus $apiResponseStatus,
-        SecretParameterService $secretParameterService
+        SensitiveParameterService $sensitiveParameterService
     ) {
         $this->entityManager = $entityManager;
         $this->apiResponseStatus = $apiResponseStatus;
-        $this->secretParameterService = $secretParameterService;
+        $this->sensitiveParameterService = $sensitiveParameterService;
     }
 
     public function create(): LogBuilder
@@ -36,7 +36,7 @@ class LogBuilderFactory
         $builder = new LogBuilder(
             $this->entityManager,
             $this->apiResponseStatus,
-            $this->secretParameterService
+            $this->sensitiveParameterService
         );
         $builder->init();
 

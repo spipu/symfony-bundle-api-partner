@@ -29,7 +29,11 @@ class UserInterfaceTest extends WebTestCase
 
         $crawler = $client->clickLink('Test-Test');
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertSame(['secret'], $crawler->filter('span.text-bg-danger')->each(fn ($node) => $node->text()));
+        $dangerBadges = $crawler->filter('span.badge.text-bg-danger')->each(fn ($node) => $node->text());
+        $this->assertCount(1, array_keys($dangerBadges, 'secret', true));
+        $this->assertContains('privacy', $dangerBadges);
+        $this->assertCount(1, $crawler->filter('span.badge.text-bg-danger i.fa-key'));
+        $this->assertGreaterThanOrEqual(1, $crawler->filter('span.badge.text-bg-danger i.fa-user-shield')->count());
 
         $client->clickLink('API Partner');
         $crawler = $client->clickLink('API Partner - Logs');

@@ -6,6 +6,7 @@ namespace Spipu\ApiPartnerBundle\Tests\Functional;
 
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\CoversClass;
+use Spipu\ApiPartnerBundle\Entity\ApiLogPartner;
 use Spipu\ApiPartnerBundle\Service\ApiService;
 use Spipu\ConfigurationBundle\Service\ConfigurationManager;
 use Spipu\CoreBundle\Tests\WebTestCase;
@@ -118,6 +119,45 @@ class ApiTest extends WebTestCase
 
         $this->callApiPartner($client, 'GET', '/');
         $this->assertApiPartnerSecurityFailed($client, 'ERROR 1004 - Partner API is not enabled');
+    }
+
+    public function testPrivacyLog(): void
+    {
+        $apiKey = md5('good_api_key');
+        $apiSecret = md5('good_api_secret');
+
+        $this->setPartnerConfigurationCredentials(true, $apiKey, $apiSecret);
+        $this->getContainer()->get(ConfigurationManager::class)->set('api.partner.log_debug', 1);
+        $this->setPartnerProfile($this->apiEndPointUrl, $apiKey, $apiSecret);
+
+        $client = static::createClient();
+
+        $requestBody = (string) json_encode(['customer' => ['full_name' => 'John Doe', 'newsletter' => true]]);
+        $this->callApiPartner($client, 'POST', '/privacy/42', ['email' => 'john@example.com'], $requestBody);
+        $result = $this->assertApiPartnerSuccessJson($client);
+        $this->assertSame(42, $result['customer_id']);
+        $this->assertSame('john@example.com', $result['email']);
+        $this->assertSame(['full_name' => 'John Doe', 'newsletter' => true], $result['customer']);
+
+        /** @var ApiLogPartner|null $log */
+        $log = static::getContainer()
+            ->get('doctrine')
+            ->getRepository(ApiLogPartner::class)
+            ->findOneBy(['routeCode' => 'Test-Privacy'], ['id' => 'DESC'])
+        ;
+        $this->assertNotNull($log);
+        $this->assertSame('###PRIVACY###', $log->getRoute());
+        $this->assertSame('Test-Privacy', $log->getRouteCode());
+        $this->assertSame('email=###PRIVACY###', $log->getQueryString());
+
+        $body = json_decode((string) $log->getBodyString(), true);
+        $this->assertSame('###PRIVACY###', $body['customer']['full_name']);
+
+        $content = json_decode((string) $log->getResponseContent(), true);
+        $this->assertSame('###PRIVACY###', $content['customer_id']);
+        $this->assertSame('###PRIVACY###', $content['email']);
+        $this->assertSame('###PRIVACY###', $content['customer']['full_name']);
+        $this->assertTrue($content['customer']['newsletter']);
     }
 
     protected function setPartnerConfigurationCredentials(bool $enabled, string $apiKey, string $apiSecret): void
