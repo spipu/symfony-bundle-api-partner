@@ -31,5 +31,9 @@ interface ParameterInterface
 
     public function isSecret(): bool;
 
+    public function setPrivacy(bool $privacy): self;
+
+    public function isPrivacy(): bool;
+
     public function validateValue(string $key, mixed $value): mixed;
 }

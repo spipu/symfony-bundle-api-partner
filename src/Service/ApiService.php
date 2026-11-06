@@ -90,7 +90,7 @@ class ApiService
             $response = new Response();
             $response
                 ->setCode(500)
-                ->setContentText('ERROR - ' . $e->getMessage() . "\n" . $e->getTraceAsString());
+                ->setContentText('ERROR - ' . $e->getMessage() . "\n" . $this->getTraceWithoutArguments($e));
         }
         $deltaTime = (float) microtime(true) - $startTime;
 
@@ -101,6 +101,28 @@ class ApiService
         }
 
         return $response;
+    }
+
+    /**
+     * Trace arguments may carry secret or privacy values, and the trace is logged.
+     */
+    private function getTraceWithoutArguments(Exception $exception): string
+    {
+        $lines = [];
+        foreach ($exception->getTrace() as $index => $frame) {
+            $location = '[internal function]';
+            if (array_key_exists('file', $frame)) {
+                $line = ($frame['line'] ?? 0);
+                $location = $frame['file'] . '(' . $line . ')';
+            }
+            $class = ($frame['class'] ?? '');
+            $type = ($frame['type'] ?? '');
+            $function = $class . $type . $frame['function'];
+            $lines[] = '#' . $index . ' ' . $location . ': ' . $function . '()';
+        }
+        $lines[] = '#' . count($lines) . ' {main}';
+
+        return implode("\n", $lines);
     }
 
     private function createLog(Response $response, float $duration, ?string $responseFormatError): void

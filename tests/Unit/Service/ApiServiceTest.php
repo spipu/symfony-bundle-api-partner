@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Spipu\ApiPartnerBundle\Tests\Unit\Service;
 
+use Exception;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Spipu\ApiPartnerBundle\Api\ActionInterface;
 use Spipu\ApiPartnerBundle\Api\RouteInterface;
@@ -20,6 +23,8 @@ use Spipu\CoreBundle\Service\EnvironmentInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
+#[AllowMockObjectsWithoutExpectations]
+#[CoversClass(ApiService::class)]
 class ApiServiceTest extends TestCase
 {
     public function testResponseFormatIsValidatedOnSuccess(): void
@@ -59,26 +64,52 @@ class ApiServiceTest extends TestCase
         $this->assertNull($this->executeAndGetResponseFormatError($response));
     }
 
+    public function testGenericExceptionTraceHasNoArguments(): void
+    {
+        $loggedContent = null;
+        $loggerService = $this->createMock(LoggerServiceInterface::class);
+        $loggerService
+            ->expects($this->once())
+            ->method('createLog')
+            ->willReturnCallback(
+                function ($request, $context, Response $response) use (&$loggedContent) {
+                    $loggedContent = $response->getContent();
+                    return null;
+                }
+            );
+
+        $previousIgnoreArgs = ini_set('zend.exception_ignore_args', '0');
+        $previousMaxLength = ini_set('zend.exception_string_param_max_len', '15');
+        try {
+            $exception = $this->createCustomerException('john@example.com');
+            $this->assertStringContainsString('john@', $exception->getTraceAsString());
+
+            $action = $this->createStub(ActionInterface::class);
+            $action->method('execute')->willThrowException($exception);
+
+            $response = $this->createService($action, $loggerService)->execute('/mock', new SymfonyRequest());
+        } finally {
+            ini_set('zend.exception_ignore_args', (string) $previousIgnoreArgs);
+            ini_set('zend.exception_string_param_max_len', (string) $previousMaxLength);
+        }
+
+        $this->assertSame(500, $response->getCode());
+        $this->assertStringStartsWith("ERROR - Invalid customer email length 16\n#0 ", $response->getContent());
+        $this->assertStringContainsString(self::class . '->createCustomerException()', $response->getContent());
+        $this->assertStringEndsWith(' {main}', $response->getContent());
+        $this->assertStringNotContainsString('john@', $response->getContent());
+        $this->assertSame($response->getContent(), $loggedContent);
+    }
+
+    private function createCustomerException(string $email): Exception
+    {
+        return new Exception(sprintf('Invalid customer email length %d', strlen($email)));
+    }
+
     private function executeAndGetResponseFormatError(Response $actionResponse): ?string
     {
-        $route = $this->createStub(RouteInterface::class);
-        $route->method('getActionServiceName')->willReturn('mock_action');
-        $route->method('getResponseFormat')->willReturn(new ResponseFormat('json'));
-
-        $routeService = $this->createStub(RouteService::class);
-        $routeService->method('identifyRoute')->willReturn($route);
-
         $action = $this->createStub(ActionInterface::class);
         $action->method('execute')->willReturn($actionResponse);
-
-        $container = $this->createStub(ContainerInterface::class);
-        $container->method('get')->willReturn($action);
-
-        $requestSecurityService = $this->createStub(RequestSecurityServiceInterface::class);
-        $requestSecurityService->method('isRouteAllowed')->willReturn(true);
-
-        $configurationManager = $this->createStub(ConfigurationManager::class);
-        $configurationManager->method('get')->willReturn(true);
 
         $responseFormatError = null;
         $loggerService = $this->createMock(LoggerServiceInterface::class);
@@ -92,7 +123,32 @@ class ApiServiceTest extends TestCase
                 }
             );
 
-        $service = new ApiService(
+        $service = $this->createService($action, $loggerService);
+
+        $this->assertSame($actionResponse, $service->execute('/mock', new SymfonyRequest()));
+
+        return $responseFormatError;
+    }
+
+    private function createService(ActionInterface $action, LoggerServiceInterface $loggerService): ApiService
+    {
+        $route = $this->createStub(RouteInterface::class);
+        $route->method('getActionServiceName')->willReturn('mock_action');
+        $route->method('getResponseFormat')->willReturn(new ResponseFormat('json'));
+
+        $routeService = $this->createStub(RouteService::class);
+        $routeService->method('identifyRoute')->willReturn($route);
+
+        $container = $this->createStub(ContainerInterface::class);
+        $container->method('get')->willReturn($action);
+
+        $requestSecurityService = $this->createStub(RequestSecurityServiceInterface::class);
+        $requestSecurityService->method('isRouteAllowed')->willReturn(true);
+
+        $configurationManager = $this->createStub(ConfigurationManager::class);
+        $configurationManager->method('get')->willReturn(true);
+
+        return new ApiService(
             $this->createStub(RequestService::class),
             new ContextService(),
             $routeService,
@@ -102,9 +158,5 @@ class ApiServiceTest extends TestCase
             $this->createStub(EnvironmentInterface::class),
             $requestSecurityService
         );
-
-        $this->assertSame($actionResponse, $service->execute('/mock', new SymfonyRequest()));
-
-        return $responseFormatError;
     }
 }

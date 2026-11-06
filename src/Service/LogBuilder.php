@@ -26,17 +26,17 @@ class LogBuilder
 
     private EntityManagerInterface $entityManager;
     private ApiResponseStatus $apiResponseStatus;
-    private SecretParameterService $secretParameterService;
+    private SensitiveParameterService $sensitiveParameterService;
     private ApiLogPartner $log;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         ApiResponseStatus $apiResponseStatus,
-        SecretParameterService $secretParameterService
+        SensitiveParameterService $sensitiveParameterService
     ) {
         $this->entityManager = $entityManager;
         $this->apiResponseStatus = $apiResponseStatus;
-        $this->secretParameterService = $secretParameterService;
+        $this->sensitiveParameterService = $sensitiveParameterService;
     }
 
     public function init(): void
@@ -56,9 +56,17 @@ class LogBuilder
 
     public function addRequest(Request $request, ?RouteInterface $route = null): void
     {
+        $routeString = $request->getRoute();
+        $queryString = $request->getQueryString();
         $bodyString = $request->getBodyString();
         if ($route !== null) {
-            $bodyString = $this->secretParameterService->maskJson($bodyString, $route->getBodyParameters());
+            $routeString = $this->sensitiveParameterService->maskRoute($routeString, $route->getPathParameters());
+            $queryString = $this->sensitiveParameterService->maskQueryString(
+                $queryString,
+                $request->getQueryArray(),
+                $route->getQueryParameters()
+            );
+            $bodyString = $this->sensitiveParameterService->maskJson($bodyString, $route->getBodyParameters());
         }
 
         $this->log
@@ -69,8 +77,8 @@ class LogBuilder
             ->setRequestTime($request->getRequestTime())
             ->setRequestHash($request->getRequestHash())
             ->setMethod($request->getMethod())
-            ->setRoute($request->getRoute())
-            ->setQueryString($this->limitStringLength($request->getQueryString()))
+            ->setRoute($routeString)
+            ->setQueryString($this->limitStringLength($queryString))
             ->setBodyString($this->limitStringLength($bodyString))
         ;
     }
@@ -89,7 +97,7 @@ class LogBuilder
 
         $responseFormat = $route?->getResponseFormat();
         if ($responseFormat !== null && $response->getContentType() === 'application/json') {
-            $content = $this->secretParameterService->maskJson($content, $responseFormat->getJsonContent());
+            $content = $this->sensitiveParameterService->maskJson($content, $responseFormat->getJsonContent());
         }
 
         $this->log

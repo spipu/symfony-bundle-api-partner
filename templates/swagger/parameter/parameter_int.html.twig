@@ -5,7 +5,11 @@
 {% endif %}
 
 {% if parameter.isSecret %}
-    <span class="badge text-bg-danger">secret</span>
+    <span class="badge text-bg-danger"><i class="fa-solid fa-key"></i> secret</span>
+{% endif %}
+
+{% if parameter.isPrivacy %}
+    <span class="badge text-bg-danger"><i class="fa-solid fa-user-shield"></i> privacy</span>
 {% endif %}
 
 {% if parameter.minValue is not null %}

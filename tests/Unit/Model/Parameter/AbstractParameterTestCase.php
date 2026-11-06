@@ -38,6 +38,12 @@ abstract class AbstractParameterTestCase extends TestCase
         $this->assertTrue($parameter->isSecret());
         $parameter->setSecret(false);
 
+        $this->assertFalse($parameter->isPrivacy());
+        $this->assertSame($parameter, $parameter->setPrivacy(true));
+        $this->assertTrue($parameter->isPrivacy());
+        $parameter->setPrivacy(false);
+        $this->assertFalse($parameter->isPrivacy());
+
         foreach ($badValues as $key => $badValue) {
             $currentException = null;
             try {
